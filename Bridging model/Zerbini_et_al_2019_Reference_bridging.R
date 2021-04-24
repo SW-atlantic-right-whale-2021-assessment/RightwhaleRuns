@@ -21,9 +21,11 @@ for(i in 1:2){
                                                                N_obs = make_prior(runif, 500, 40000),
                                                                var_N = make_prior(0)),
                                       catch_multipliers = make_multiplier_list(
-                                        make_prior(rnorm, 1.0185 , 0.0028)),
-                                      premodern_catch_multipliers = make_multiplier_list(
+                                        make_prior(rnorm, 1.0185 , 0.0028), 
                                         make_prior(rnorm, 1.71, 0.073)),
+                                      catch_parameters = make_multiplier_list(
+                                        make_prior(0), 
+                                        make_prior(runif, 0, 1)),
                                       target.Yr = 2008,
                                       num.haplotypes = 0,
                                       output.Yrs = c(2012, 2006, 2019, 2030),
@@ -34,8 +36,7 @@ for(i in 1:2){
                                       count.data.key = FALSE,
                                       growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
                                       growth.rate.Yrs = c(1995, 1996, 1997, 1998),
-                                      catch.data = Core.Catches2,
-                                      premodern_catch_data = merge(PreModern.Catch.Min, PreModern.Catch.Max, by = "Year", all = T),
+                                      catch.data = list(Core.Catches2, merge(PreModern.Catch.Min, PreModern.Catch.Max, by = "Year", all = T)),
                                       control = sir_control(threshold = 0.01 * 1e-23, progress_bar = TRUE),
                                       realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
@@ -63,11 +64,13 @@ for(i in 1:2){
                                        n_resamples = 1000,
                                        priors = make_prior_list(r_max = make_prior(runif, 0, 0.118),
                                                                 N_obs = make_prior(runif, 500, 40000),
-                                                                var_N = make_prior(rinvgamma, 4, 0.1)),
+                                                                var_N = make_prior(0)),
                                        catch_multipliers = make_multiplier_list(
-                                         make_prior(rnorm, 1.0185 , 0.0028)),
-                                       premodern_catch_multipliers = make_multiplier_list(
+                                         make_prior(rnorm, 1.0185 , 0.0028), 
                                          make_prior(rnorm, 1.71, 0.073)),
+                                       catch_parameters = make_multiplier_list(
+                                         make_prior(0), 
+                                         make_prior(runif, 0, 1)),
                                        target.Yr = 2008,
                                        num.haplotypes = 0,
                                        output.Yrs = c(2012, 2006, 2019, 2030),
@@ -78,8 +81,7 @@ for(i in 1:2){
                                        count.data.key = FALSE,
                                        growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
                                        growth.rate.Yrs = c(1995, 1996, 1997, 1998),
-                                       catch.data = Core.Catches2,
-                                       premodern_catch_data = merge(PreModern.Catch.Min, PreModern.Catch.Max, by = "Year", all = T),
+                                       catch.data = list(Core.Catches2, merge(PreModern.Catch.Min, PreModern.Catch.Max, by = "Year", all = T)),
                                        control = sir_control(threshold = 0.02 * 1e-23, progress_bar = TRUE),
                                        realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
@@ -96,4 +98,10 @@ plot_ioa(sir_state_space[[1]],  file_name = file_name, ioa_names = c("FG", "BG1"
 summary_table(sir_state_space[[1]],  file_name = file_name)
 
 
+################################################################################
+# Read in and update catch
+################################################################################
+sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles.csv", sep=";",header=FALSE)   
+names(sw_right_data)<- c("Y","Htmin","Htmax","Nt")
 
+# Two periods of SLRs
