@@ -23,9 +23,6 @@ for(i in 1:2){
                                       catch_multipliers = make_multiplier_list(
                                         make_prior(rnorm, 1.0185 , 0.0028), 
                                         make_prior(rnorm, 1.71, 0.073)),
-                                      catch_parameters = make_multiplier_list(
-                                        make_prior(0), 
-                                        make_prior(runif, 0, 1)),
                                       target.Yr = 2008,
                                       num.haplotypes = 0,
                                       output.Yrs = c(2012, 2006, 2019, 2030),
@@ -68,9 +65,6 @@ for(i in 1:2){
                                        catch_multipliers = make_multiplier_list(
                                          make_prior(rnorm, 1.0185 , 0.0028), 
                                          make_prior(rnorm, 1.71, 0.073)),
-                                       catch_parameters = make_multiplier_list(
-                                         make_prior(0), 
-                                         make_prior(runif, 0, 1)),
                                        target.Yr = 2008,
                                        num.haplotypes = 0,
                                        output.Yrs = c(2012, 2006, 2019, 2030),
@@ -102,6 +96,53 @@ summary_table(sir_state_space[[1]],  file_name = file_name)
 # Read in and update catch
 ################################################################################
 sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles.csv", sep=";",header=FALSE)   
-names(sw_right_data)<- c("Y","Htmin","Htmax","Nt")
+names(sw_right_data)<- c("Year","CatchMin","CatchMax","Nt")
 
 # Two periods of SLRs
+# struck and lost’ rate factor (period: 1648-1677): 1
+# struck and lost’ rate factor (period: 1678-1900): SLR1~norm(1.5,〖0.03〗^2 )
+# struck and lost’ rate factor (period: 1900-1973): SLR2~norm(1.0185,〖0.0028〗^2 )
+catch_list <- list(sw_right_data[which(sw_right_data$Year < 1678),1:3],
+                   sw_right_data[which(sw_right_data$Year >= 1678 & sw_right_data$Year < 1901),1:3],
+                   sw_right_data[which(sw_right_data$Year >= 1901 & sw_right_data$Year <= 1973),1:3],
+                   sw_right_data[which(sw_right_data$Year > 1973),1:3])
+
+
+file_name <- "Bridging model/Update_catch/Update_catch"
+sir_update_catch <- list()
+for(i in 1:2){
+  sir_update_catch[[i]] <-  StateSpaceSIR(file_name = paste0(file_name, c("","prior")[i]),
+                                         n_resamples = 1000,
+                                         priors = make_prior_list(r_max = make_prior(runif, 0, 0.118),
+                                                                  N_obs = make_prior(runif, 500, 40000),
+                                                                  var_N = make_prior(0)),
+                                         catch_multipliers = make_multiplier_list(
+                                           make_prior(1),
+                                           make_prior(rnorm, 1.5 , 0.03), 
+                                           make_prior(rnorm, 1.0185, 0.0028),
+                                           make_prior(1)),
+                                         target.Yr = 2008,
+                                         num.haplotypes = 0,
+                                         output.Yrs = c(2012, 2006, 2019, 2030),
+                                         abs.abundance = rbind(Abs.Abundance.2008, Abs.Abundance.2012),
+                                         rel.abundance = rel_abund_ref,
+                                         rel.abundance.key = TRUE, # Indices of abundance
+                                         count.data = Count.Data,
+                                         count.data.key = FALSE,
+                                         growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
+                                         growth.rate.Yrs = c(1995, 1996, 1997, 1998),
+                                         catch.data = catch_list,
+                                         control = sir_control(threshold = 0.02 * 1e-23, progress_bar = TRUE),
+                                         realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+}
+resample_summary_reference <- summary_sir(sir_update_catch[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sir_update_catch[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+save(sir_update_catch, file = paste0(file_name, ".Rdata"))
+
+
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_update_catch[[1]],  file_name = file_name)
+plot_trajectory(sir_update_catch[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sir_update_catch[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sir_update_catch[[2]]), inc_reference = FALSE)
+plot_ioa(sir_update_catch[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
+summary_table(sir_update_catch[[1]],  file_name = file_name)
