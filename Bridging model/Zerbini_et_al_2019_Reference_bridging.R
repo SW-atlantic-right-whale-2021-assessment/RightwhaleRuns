@@ -16,7 +16,7 @@ file_name <- "Bridging model/Reference/Reference_bridging"
 sir_reference <- list()
 for(i in 1:2){
   sir_reference[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.118),
                              N_obs = make_prior(runif, 500, 40000),
@@ -35,12 +35,12 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998),
     catch.data = list(Core.Catches2, merge(PreModern.Catch.Min, PreModern.Catch.Max, by = "Year", all = T)),
-    control = sir_control(threshold = 0.01 * 1e-23, progress_bar = TRUE),
+    control = sir_control(threshold = 0.01 * 1e-22, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sir_reference[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_reference[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_reference, file = paste0(file_name, ".Rdata"))
+#save(sir_reference, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
@@ -59,7 +59,7 @@ file_name <- "Bridging model/Reference_state_space/Reference_state_space"
 sir_state_space <- list()
 for(i in 1:2){
   sir_state_space[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.118),
                              N_obs = make_prior(runif, 500, 40000),
@@ -78,12 +78,12 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998),
     catch.data = list(Core.Catches2, merge(PreModern.Catch.Min, PreModern.Catch.Max, by = "Year", all = T)),
-    control = sir_control(threshold = 0.02 * 1e-24, progress_bar = TRUE),
+    control = sir_control(threshold = 0.02 * 1e-22, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sir_state_space[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_state_space[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_state_space, file = paste0(file_name, ".Rdata"))
+#save(sir_state_space, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
@@ -116,7 +116,7 @@ file_name <- "Bridging model/Update_catch/Update_catch"
 sir_update_catch <- list()
 for(i in 1:2){
   sir_update_catch[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.118),
                              N_obs = make_prior(runif, 500, 40000),
@@ -137,12 +137,12 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998),
     catch.data = catch_list,
-    control = sir_control(threshold = 0.02 * 1e-26, progress_bar = TRUE),
+    control = sir_control(threshold = 0.02 * 1e-22, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sir_update_catch[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_update_catch[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_update_catch, file = paste0(file_name, ".Rdata"))
+#save(sir_update_catch, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
@@ -161,7 +161,7 @@ file_name <- "Bridging model/Update_priors/Update_priors"
 sir_update_priors <- list()
 for(i in 1:2){
   sir_update_priors[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
@@ -184,12 +184,12 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.06 * 1e-30, progress_bar = TRUE),
+    control = sir_control(threshold = 0.06 * 1e-24, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sir_update_priors[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_update_priors[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_update_priors, file = paste0(file_name, ".Rdata"))
+#save(sir_update_priors, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
@@ -213,7 +213,7 @@ Abs.Abundance.2010 <- data.frame(Year = 2010, N.obs = 4245, CV.obs = 245/4245) #
 sir_update_abundance <- list()
 for(i in 1:2){
   sir_update_abundance[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
@@ -236,12 +236,12 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.06 * 1e-20, progress_bar = TRUE),
+    control = sir_control(threshold = 0.06 * 1e-19, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sir_update_abundance[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_update_abundance[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_update_abundance, file = paste0(file_name, ".Rdata"))
+#save(sir_update_abundance, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
@@ -262,13 +262,13 @@ Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_data.RelAbundan
 sir_update_relative_abundance <- list()
 for(i in 1:2){
   sir_update_relative_abundance[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             add_CV_IA = make_prior(rinvgamma, 2, 0.5),
+                             add_VAR_IA = make_prior(rinvgamma, 2, 0.5),
                              Pmsy = make_prior(runif, 0.6, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
@@ -287,12 +287,12 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.1 * 1e-70, progress_bar = TRUE),
+    control = sir_control(threshold = 0.1 * 1e-64, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sir_update_relative_abundance[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_update_relative_abundance[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_update_relative_abundance, file = paste0(file_name, ".Rdata"))
+#save(sir_update_relative_abundance, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
@@ -303,29 +303,35 @@ plot_ioa(sir_update_relative_abundance[[1]],  file_name = file_name, ioa_names =
 summary_table(sir_update_relative_abundance[[1]],  file_name = file_name)
 
 
-
 ################################################################################
-# Update no abs abundance
+# Update old base run (no absolute abundance, estimate variance of IA, estimate q with prior, change catch)
 ################################################################################
-file_name <- "Bridging model/Update_relative_abundance/Update_relative_abundance"
+file_name <- "Bridging model/Update_old_base/Update_old_base"
 sw_right_data.RelAbundance <- sw_right_data[which(sw_right_data$Nt>0),]
 Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_data.RelAbundance)), Year = sw_right_data.RelAbundance$Year, IA.obs = sw_right_data.RelAbundance$Nt, CV.IA.obs = rep(0, nrow(sw_right_data.RelAbundance))) #Using 0.2 as a proxy
 
-sir_update_no_abs_abundance <- list()
+
+catch_list_old <- list(sw_right_data[which(sw_right_data$Year < 1678),1:3],
+                   sw_right_data[which(sw_right_data$Year >= 1678 & sw_right_data$Year < 1901),1:3],
+                   sw_right_data[which(sw_right_data$Year >= 1901 & sw_right_data$Year <= 1973),1:3],
+                   sw_right_data[which(sw_right_data$Year > 1973),1:3])
+
+sir_old_base <- list()
 for(i in 1:2){
-  sir_update_no_abs_abundance[[i]] <-  StateSpaceSIR(
-    file_name = paste0(file_name, c("","prior")[i]),
+  sir_old_base[[i]] <-  StateSpaceSIR(
+    file_name = "NULL",
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             add_CV_IA = make_prior(rinvgamma, 2, 0.5),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             add_VAR_IA = make_prior(rinvgamma,2,0.5),
+                             q_IA = make_prior(rnorm, 0.5, 0.4),
+                             Pmsy = make_prior(0.6)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
-      make_prior(rnorm, 1.60 , 0.04), 
-      make_prior(rnorm, 1.09, 0.04),
+      make_prior(rnorm, 1.5 , 0.03), 
+      make_prior(rnorm, 1.0185, 0.0028),
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 0,
@@ -338,19 +344,21 @@ for(i in 1:2){
     count.data.key = FALSE, # Don't use count data
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
-    catch.data = catch_list,
-    control = sir_control(threshold = 0.1 * 1e-55, progress_bar = TRUE),
+    catch.data = catch_list_old,
+    control = sir_control(threshold = 0.1 * 1e-61, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
-resample_summary_reference <- summary_sir(sir_update_no_abs_abundance[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
-trajectory_summary_reference <- summary_sir(sir_update_no_abs_abundance[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
-save(sir_update_no_abs_abundance, file = paste0(file_name, ".Rdata"))
+resample_summary_reference <- summary_sir(sir_old_base[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sir_old_base[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+#save(sir_old_base, file = paste0(file_name, ".Rdata"))
 
 
 load(file = paste0(file_name, ".Rdata"))
-plot_trajectory(sir_update_no_abs_abundance[[1]],  file_name = file_name)
-plot_trajectory(sir_update_no_abs_abundance[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sir_update_no_abs_abundance[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sir_update_no_abs_abundance[[2]]), inc_reference = FALSE)
-plot_ioa(sir_update_no_abs_abundance[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
-summary_table(sir_update_no_abs_abundance[[1]],  file_name = file_name)
+plot_trajectory(sir_old_base[[1]],  file_name = file_name)
+plot_trajectory(sir_old_base[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sir_old_base[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sir_old_base[[2]]), inc_reference = FALSE)
+plot_ioa(sir_old_base[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
+summary_table(sir_old_base[[1]],  file_name = file_name)
+
+
 
