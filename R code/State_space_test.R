@@ -24,7 +24,7 @@ Abs.Abundance.2010 <- data.frame(Year = 2010, N.obs = 4245, CV.obs = 245/4245) #
 
 
 sw_right_data.RelAbundance <- sw_right_data[which(sw_right_data$Nt>0),]
-Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_data.RelAbundance)), Year = sw_right_data.RelAbundance$Year, IA.obs = sw_right_data.RelAbundance$Nt, CV.IA.obs = rep(0.2, nrow(sw_right_data.RelAbundance))) #Using 0.2 as a proxy
+Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_data.RelAbundance)), Year = sw_right_data.RelAbundance$Year, IA.obs = sw_right_data.RelAbundance$Nt, CV.IA.obs = rep(0, nrow(sw_right_data.RelAbundance))) #Using 0.2 as a proxy
 
 ################################
 # Assigning variables
@@ -35,7 +35,7 @@ priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                          N_obs = make_prior(runif, 100, 10000),
                          var_N = make_prior(rinvgamma, 4, 0.1),
                          z = make_prior(use = FALSE),
-                         q_IA = make_prior(rnorm, 0.5, 0.4),
+                         add_VAR_IA = make_prior(rinvgamma, 2, 0.5),
                          Pmsy = make_prior(runif, 0.6, 0.8))
 catch_multipliers = make_multiplier_list(
   make_prior(1),
@@ -46,7 +46,7 @@ target.Yr = 2019
 num.haplotypes = 0
 output.Yrs = c(2021, 2030)
 abs.abundance = Abs.Abundance.2010
-abs.abundance.key = FALSE
+abs.abundance.key = TRUE
 rel.abundance = Rel.Abundance.SWRight
 rel.abundance.key = TRUE # Indices of abundance
 count.data = Count.Data # Not used
