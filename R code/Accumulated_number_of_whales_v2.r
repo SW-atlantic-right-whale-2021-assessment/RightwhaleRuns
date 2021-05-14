@@ -16,14 +16,15 @@ balle <- subset (balle, Year<2020) # Subset years
 
 ####Variable Respuesta ############
 balle$RTA <- (balle$T) # Total of observed whales
+balle$Year <- as.factor(balle$Year)
 
 
 ################################################################################
 # First stage - regression model
 ################################################################################
 #	Regresion model selected (up to  2019)
-regresion.balle.nb.jul.cuad <- glm.nb(RTA ~ as.factor(Year) + Juliano + I(Juliano^2), data = balle, link = log)
-regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ as.factor(Year) + Juliano + I(Juliano^2), data = balle, family = nbinom2)
+regresion.balle.nb.jul.cuad <- glm.nb(RTA ~ Year + Juliano + I(Juliano^2), data = balle, link = log)
+regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ Year + Juliano + I(Juliano^2), data = balle, family = nbinom2)
 
 summary (regresion.balle.nb.jul.cuad)
 nb.Jul.cuad <- cbind(Estimate = coef(regresion.balle.nb.jul.cuad))
