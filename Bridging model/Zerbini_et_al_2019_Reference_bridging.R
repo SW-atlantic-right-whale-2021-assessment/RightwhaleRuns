@@ -97,7 +97,7 @@ summary_table(sir_state_space[[1]],  file_name = file_name)
 ################################################################################
 # Read in and update catch
 ################################################################################
-sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles.csv", sep=";",header=FALSE)   
+sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv", sep=";",header=FALSE)   
 names(sw_right_data)<- c("Year","CatchMin","CatchMax","Nt")
 
 # Two periods of SLRs
