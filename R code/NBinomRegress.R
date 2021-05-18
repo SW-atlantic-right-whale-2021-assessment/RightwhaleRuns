@@ -3,6 +3,7 @@
 ################################################################################
 rm(list=ls())
 require(MASS)
+library(glmmTMB)
 library(TMB)
 library(TMBhelper) # https://github.com/kaskr/TMB_contrib_R
 
@@ -25,21 +26,25 @@ balle$Year <- as.factor(balle$Year)
 ################################################################################
 #	Regresion model selected (up to  2019) using Mass package
 regresion.balle.nb.jul.cuad <- glm.nb(RTA ~ Year + Juliano + I(Juliano^2), data = balle, link = log)
+regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ Year + Juliano + I(Juliano^2), data = balle, family = nbinom2(link = "log"))
 summary (regresion.balle.nb.jul.cuad)
 nb.Jul.cuad <- cbind(Estimate = coef(regresion.balle.nb.jul.cuad))
 nb.Jul.cuad # Estimates
+Hess = solve(vcov(regresion.balle.nb.jul.cuad))
 
 # Run in TMB to get SD of stage two
 setwd("R code")
 compile("NBinomRegress.cpp")
 dyn.load(dynlib("NBinomRegress"))
+setwd("../")
 
-# Set up predictions matrix
+# Set up predictions matrix'
+form <- formula(~ Year + Juliano + I(Juliano^2)) # Whats the model look like
 Xhat <- merge(data.frame(Juliano = 1:365), data.frame(Year = unique(balle$Year)), all = TRUE)
-XhatMat <- model.matrix(~ Year + Juliano + I(Juliano^2), data = Xhat) # Make into matrix
+XhatMat <- model.matrix(form, data = Xhat) # Make into matrix
 
 # Set up data, params and estimate
-X = model.matrix(~ Year + Juliano + I(Juliano^2), data = balle) # Make into matrix
+X = model.matrix(form, data = balle) # Make into matrix
 data <- list(yobs = balle$RTA, # Response
              Xd=matrix(1, nrow = nrow(balle), ncol = 1), # Dispersion matrix
              X = X, # Design matrix
@@ -49,10 +54,12 @@ data <- list(yobs = balle$RTA, # Response
              Iday = 100, # Day beginning Ingress
              Eday = 320 # Day ending ingress/egress
              )
-parameters <- list(beta=as.numeric(nb.Jul.cuad), betad=1)
-obj <- MakeADFun(data, parameters, DLL="NBinomRegress")
-setwd("../")
-opt <- do.call("optim", obj)
+parameters <- list(beta=rep(0, ncol(X)), betad=1)
+obj <- MakeADFun(data, parameters, DLL="NBinomRegress", hessian = TRUE)
+opt <- optim(obj$par, fn = obj$fn, gr = obj$gr)
+he <- as.matrix(obj$he())
+rep <- sdreport(obj, par.fixed = opt$par, hessian.fixed = he)
+rep
 
 
 # Compare parameter estimates
@@ -68,7 +75,7 @@ Param_est # Great! Very close
 # -- Run for years of interest and using nb regression model
 A_xy <- data.frame(Year = sort(unique(balle$Year)), B = c(0, nb.Jul.cuad[2:17])) # Years which we want to calculate the accumulated number of whales from years which we have data and the associated regression parameters. NOTE: 1990 is the intercept 
 
-# Run function across years of interest
+# Get A_xy using MASS and R
 A_xy$A_xy <- NA
 for(i in 1:nrow(A_xy)){
   A_xy$A_xy[i] <- accum_fun(a = nb.Jul.cuad[1], # Intercept
@@ -86,10 +93,9 @@ for(i in 1:nrow(A_xy)){
 A_xy
 
 
-# Check if TMB is right
-report <- obj$report()
-Xhat$A_xy <- report$A_xy
-Xhat$W_t <- report$W_t
-Xhat$dW_t <- report$dW_t
+# Get A_xy using TMB
+report <- obj$report(obj$env$last.par.best)
+adreport <- sdreport(obj)
+Xhat$A_xy <- report$A_xyLong
 A_xyTMB <- Xhat[which(Xhat$Juliano == 320),]
-# Yep! All good
+A_xyTMB

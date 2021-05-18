@@ -25,12 +25,14 @@ Type objective_function<Type>::operator() ()
     Type jnll = 0;
     for (int i=0; i < yobs.size(); i++){
         jnll -= dnbinom_robust(yobs(i), eta(i), 2. * eta(i) - etad(i), true);
+        // jnll -= dnbinom2(yobs(i), eta(i), eta(i) * (1 + etad(i)), true);
     }
     
     // Run second stage calculations
     vector<Type> W_t = exp(Xhat*beta); // Estimated number of whales on day t: W_0 = 0
     vector<Type> dW_t = W_t.size(); dW_t.setZero(); // Difference in whales ingressing on day t: W_0 = 0
-    vector<Type> A_xy = W_t.size(); A_xy.setZero(); // Estimated number of whales on day t: W_0 = 0
+    vector<Type> A_xyLong = W_t.size(); A_xyLong.setZero(); // Estimated number of whales on day t: W_0 = 0
+    vector<Type> A_xy(Nyr); A_xy.setZero();
     Iday = Iday - 1; // Start of ingress - change for cpp indexing
     Eday = Eday - 1; // stop of ingress/egress - change for cpp indexing
     int Nday = 365; // Number of days
@@ -50,7 +52,7 @@ Type objective_function<Type>::operator() ()
             if(k < Iday){
                 W_t[Nday*yr + k] = 0;
                 dW_t[Nday*yr + k] = 0;
-                A_xy[Nday*yr + k] = 0;
+                A_xyLong[Nday*yr + k] = 0;
             }
             
             // Accumulation
@@ -59,16 +61,21 @@ Type objective_function<Type>::operator() ()
                 
                 // Run the summation of all previous days (no way to vectorize)
                 for(int ktmp = 0; ktmp < k; ktmp++){
-                    tmp_sum += dW_t[Nday*yr + ktmp] + P_t(ktmp) * A_xy[Nday*yr + k - ktmp - 1];
+                    tmp_sum += dW_t[Nday*yr + ktmp] + P_t(ktmp) * A_xyLong[Nday*yr + k - ktmp - 1];
                 }
                 
-                A_xy[Nday*yr + k] = tmp_sum + dW_t[Nday*yr + k]; // segment of k elements, starting at year
+                A_xyLong[Nday*yr + k] = tmp_sum + dW_t[Nday*yr + k]; // segment of k elements, starting at year
             }
             
             // No whales ingressing after day 320 (index 319)
             if(k > Eday){
                 dW_t[Nday*yr + k] = 0;
-                A_xy[Nday*yr + k] = A_xy[Nday*yr + Eday];
+                A_xyLong[Nday*yr + k] = A_xyLong[Nday*yr + Eday];
+            }
+            
+            // Save value
+            if(k == Eday){
+                A_xy = A_xyLong[Nday*yr + Eday];
             }
         }
     }  
@@ -76,6 +83,7 @@ Type objective_function<Type>::operator() ()
     // Report predictions
     REPORT( W_t );
     REPORT( dW_t );
+    REPORT( A_xyLong );
     REPORT( A_xy );
     ADREPORT( A_xy );
     
