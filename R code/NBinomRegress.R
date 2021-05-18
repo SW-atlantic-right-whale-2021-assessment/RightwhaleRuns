@@ -5,7 +5,6 @@ rm(list=ls())
 require(MASS)
 library(glmmTMB)
 library(TMB)
-library(TMBhelper) # https://github.com/kaskr/TMB_contrib_R
 
 ################################################################################
 # Read in and clean data
@@ -26,11 +25,10 @@ balle$Year <- as.factor(balle$Year)
 ################################################################################
 #	Regresion model selected (up to  2019) using Mass package
 regresion.balle.nb.jul.cuad <- glm.nb(RTA ~ Year + Juliano + I(Juliano^2), data = balle, link = log)
-regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ Year + Juliano + I(Juliano^2), data = balle, family = nbinom2(link = "log"))
+regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ Year + Juliano + I(Juliano^2), data = balle, family = nbinom2(link = "log")) # Doesnt converge
 summary (regresion.balle.nb.jul.cuad)
 nb.Jul.cuad <- cbind(Estimate = coef(regresion.balle.nb.jul.cuad))
 nb.Jul.cuad # Estimates
-Hess = solve(vcov(regresion.balle.nb.jul.cuad))
 
 # Run in TMB to get SD of stage two
 setwd("R code")
@@ -58,7 +56,7 @@ parameters <- list(beta=rep(0, ncol(X)), betad=1)
 obj <- MakeADFun(data, parameters, DLL="NBinomRegress", hessian = TRUE)
 opt <- optim(obj$par, fn = obj$fn, gr = obj$gr)
 he <- as.matrix(obj$he())
-rep <- sdreport(obj, par.fixed = opt$par, hessian.fixed = he)
+rep <- sdreport(obj, par.fixed = opt$par, hessian.fixed = he) # Doesn't converge
 rep
 
 
@@ -88,8 +86,6 @@ for(i in 1:nrow(A_xy)){
                             ReportList = FALSE) # Calculate until day 320
   
 }
-
-
 A_xy
 
 
