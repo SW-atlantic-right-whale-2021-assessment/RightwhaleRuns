@@ -1,9 +1,11 @@
 ---
-title: "Untitled"
+title: "Multivariate q"
 author: "Grant Adams"
 date: "5/21/2021"
 output:
   word_document: default
+  html_document:
+    df_print: paged
   pdf_document: default
 ---
 $$
@@ -14,63 +16,63 @@ $$
 $$
 $$
 LL = 0.5 * 
-\begin{pmatrix}
+\begin{bmatrix}
 I_1-log(q)\\
 I_2 -log(q)
-\end{pmatrix}^T
-
-\begin{pmatrix}
+\end{bmatrix}^{T}
+%
+\begin{bmatrix}
 \sigma_1^2 & \rho\sigma_1\sigma_2\\
 \rho\sigma_1\sigma_2 & \sigma_2^2
-\end{pmatrix}^{-1}
-
-\begin{pmatrix}
+\end{bmatrix}^{-1}
+%
+\begin{bmatrix}
 I_1-log(q)\\
 I_2 -log(q)
-\end{pmatrix}
+\end{bmatrix}
 $$
 Invert
 $$
 LL = 0.5 * \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
+\begin{bmatrix}
 I_1-log(q)\\
 I_2 -log(q)
-\end{pmatrix}^T
-
-\begin{pmatrix}
+\end{bmatrix}^T
+%
+\begin{bmatrix}
 \sigma_2^2 & -\rho\sigma_1\sigma_2\\
 -\rho\sigma_1\sigma_2 & \sigma_1^2
-\end{pmatrix}
-
-\begin{pmatrix}
+\end{bmatrix}
+%
+\begin{bmatrix}
 I_1-log(q)\\
 I_2 -log(q)
-\end{pmatrix}
+\end{bmatrix}
 $$
 Multiply out
 $$
 LL = 0.5 * \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
+\begin{bmatrix}
 I_1-log(q)\\
 I_2 -log(q)
-\end{pmatrix}^T
-
-\begin{pmatrix}
+\end{bmatrix}^T
+%
+\begin{bmatrix}
 \sigma_2^2(I_1-log(q)) -\rho\sigma_1\sigma_2(I_2 -log(q))\\
 -\rho\sigma_1\sigma_2(I_1-log(q)) + \sigma_1^2(I_2 -log(q))
-\end{pmatrix}
+\end{bmatrix}
 $$
 $$
 LL = 0.5 * \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
+\begin{bmatrix}
 I_1-log(q)\\
 I_2 -log(q)
-\end{pmatrix}^T
-
-\begin{pmatrix}
+\end{bmatrix}^T
+%
+\begin{bmatrix}
 \sigma_2^2(I_1-log(q)) -\rho\sigma_1\sigma_2(I_2 -log(q))\\
 -\rho\sigma_1\sigma_2(I_1-log(q)) + \sigma_1^2(I_2 -log(q))
-\end{pmatrix}
+\end{bmatrix}
 $$
 
 $$LL = \dfrac{{\sigma}_1^2\left(I_2-log(q)\right)^2+
@@ -105,37 +107,31 @@ $$
 $$
 \Sigma^{-1}=
 \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
+\begin{bmatrix}
 \sigma_2^2 & -\rho\sigma_1\sigma_2\\
 -\rho\sigma_1\sigma_2 & \sigma_1^2
-\end{pmatrix}
+\end{bmatrix}
 $$
 Numerator (sum hessian times index)
 $$
-\Sigma^{-1}\textbf{I} = 
-\frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
-\sigma_2^2 I_1  -\rho\sigma_1\sigma_2 I_2 \\
--\rho\sigma_1\sigma_2 I_1 + \sigma_1^2 I_2
-\end{pmatrix}
-
-
+\Sigma^{-1}\textbf{I} = \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
+\begin{bmatrix}
+ I_1\sigma_2^2  - I_2\rho \sigma_1\sigma_2 \\
+- I_1\rho\sigma_1\sigma_2 +  I_2\sigma_1^2
+\end{bmatrix}
 $$
 
 $$
 \sum \left( \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
+\begin{bmatrix}
 \sigma_2^2 I_1  -\rho\sigma_1\sigma_2 I_2 \\
 -\rho\sigma_1\sigma_2 I_1 + \sigma_1^2 I_2
-\end{pmatrix} \right) =
-
+\end{bmatrix} \right) =
 \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)} \sum 
-\begin{pmatrix}
+\begin{bmatrix}
 \sigma_2^2 I_1  -\rho\sigma_1\sigma_2 I_2 \\
 -\rho\sigma_1\sigma_2 I_1 + \sigma_1^2 I_2
-\end{pmatrix}  =
-
-\frac{\sigma_2^2 I_1
+\end{bmatrix}  = \frac{\sigma_2^2 I_1
 -\rho\sigma_1\sigma_2 (I_1 +I_2)+ \sigma_1^2 I_2}
 {\sigma_1^2 \sigma_2^2 (1-\rho^2)}  
 $$
@@ -144,20 +140,15 @@ Denominator (sum hessian)
 $$
 \sum
 \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
-\begin{pmatrix}
+\begin{bmatrix}
 \sigma_2^2 & -\rho\sigma_1\sigma_2\\
 -\rho\sigma_1\sigma_2 & \sigma_1^2
-\end{pmatrix} = 
-
-
-\frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
+\end{bmatrix} = \frac{1}{\sigma_1^2 \sigma_2^2 (1-\rho^2)}
 \sum
-\begin{pmatrix}
+\begin{bmatrix}
 \sigma_2^2 & -\rho\sigma_1\sigma_2\\
 -\rho\sigma_1\sigma_2 & \sigma_1^2
-\end{pmatrix} = 
-
-\frac{\sigma_2^2 
+\end{bmatrix} = \frac{\sigma_2^2 
 -2\rho\sigma_1\sigma_2+ \sigma_1^2 }
 {\sigma_1^2 \sigma_2^2 (1-\rho^2)}  
 $$
@@ -167,18 +158,14 @@ $$
 \frac{\frac{\sigma_2^2 I_1
 -\rho\sigma_1\sigma_2 (I_1 +I_2)+ \sigma_1^2 I_2}
 {\sigma_1^2 \sigma_2^2 (1-\rho^2)}  }
-
 {\frac{\sigma_2^2 
 -2\rho\sigma_1\sigma_2+ \sigma_1^2 }
 {\sigma_1^2 \sigma_2^2 (1-\rho^2)}  } 
-=
-\frac{\sigma_2^2 I_1
+= \frac{\sigma_2^2 I_1
 -\rho\sigma_1\sigma_2 (I_1 +I_2)+ \sigma_1^2 I_2  }
-
 {\sigma_2^2 
 -2\rho\sigma_1\sigma_2+ \sigma_1^2   } 
 = log(q)
-
 $$
 
 # Sim analytical q
