@@ -5,6 +5,7 @@ rm(list=ls())
 require(MASS)
 library(glmmTMB)
 library(TMB)
+library(StateSpaceSIR)
 
 ################################################################################
 # Read in and clean data
@@ -24,8 +25,8 @@ balle$Year <- as.factor(balle$Year)
 # First stage - regression model
 ################################################################################
 #	Regresion model selected (up to  2019) using Mass package
-regresion.balle.nb.jul.cuad <- glm.nb(RTA ~ Year + Juliano + I(Juliano^2), data = balle, link = log)
-regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ Year + Juliano + I(Juliano^2), data = balle, family = nbinom2(link = "log")) # Doesnt converge
+regresion.balle.nb.jul.cuad <- glm.nb(RTA ~ Year + Juliano, data = balle, link = log)
+regresion.balle.glmmTMB.jul.cuad <- glmmTMB(RTA ~ Year + Juliano, data = balle, family = nbinom2(link = "log")) # Doesnt converge
 summary (regresion.balle.nb.jul.cuad)
 nb.Jul.cuad <- cbind(Estimate = coef(regresion.balle.nb.jul.cuad))
 nb.Jul.cuad # Estimates
@@ -37,7 +38,7 @@ dyn.load(dynlib("NBinomRegress"))
 setwd("../")
 
 # Set up predictions matrix'
-form <- formula(~ Year + Juliano + I(Juliano^2)) # Whats the model look like
+form <- formula(~ Year + Juliano) # Whats the model look like
 Xhat <- merge(data.frame(Juliano = 1:365), data.frame(Year = unique(balle$Year)), all = TRUE)
 XhatMat <- model.matrix(form, data = Xhat) # Make into matrix
 
@@ -54,14 +55,11 @@ data <- list(yobs = balle$RTA, # Response
              )
 parameters <- list(beta=rep(0, ncol(X)), betad=1)
 obj <- MakeADFun(data, parameters, DLL="NBinomRegress", hessian = TRUE)
-opt <- optim(obj$par, fn = obj$fn, gr = obj$gr)
-he <- as.matrix(obj$he())
-rep <- sdreport(obj, par.fixed = opt$par, hessian.fixed = he) # Doesn't converge
-rep
+opt <- do.call("optim", obj)
 
 
 # Compare parameter estimates
-Param_est <- data.frame(Name = rownames(nb.Jul.cuad), Mass = round(as.numeric(nb.Jul.cuad), 6), TMB = round(opt$par[1:19], 6))
+Param_est <- data.frame(Name = rownames(nb.Jul.cuad), Mass = round(as.numeric(nb.Jul.cuad), 6), TMB = round(opt$par[1:18], 6))
 Param_est$Dif = Param_est$Mass - Param_est$TMB
 Param_est # Great! Very close
 
@@ -79,7 +77,7 @@ for(i in 1:nrow(A_xy)){
   A_xy$A_xy[i] <- accum_fun(a = nb.Jul.cuad[1], # Intercept
                             b = A_xy$B[i], # Year parameter
                             c = nb.Jul.cuad[18], # Julian day parameter
-                            d = nb.Jul.cuad[19], # Julian day^2 parameter
+                            d = 0, # Julian day^2 parameter
                             mu = 60, # mu from manuscript
                             sigma = 8.66, # sigma from manuscript
                             x = 320,
@@ -91,7 +89,7 @@ A_xy
 
 # Get A_xy using TMB
 report <- obj$report(obj$env$last.par.best)
-adreport <- sdreport(obj)
+rep <- sdreport(obj)
 Xhat$A_xy <- report$A_xyLong
 A_xyTMB <- Xhat[which(Xhat$Juliano == 320),]
 A_xyTMB

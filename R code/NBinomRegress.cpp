@@ -75,7 +75,7 @@ Type objective_function<Type>::operator() ()
             
             // Save value
             if(k == Eday){
-                A_xy = A_xyLong[Nday*yr + Eday];
+                A_xy[yr] = A_xyLong[Nday*yr + Eday];
             }
         }
     }  
