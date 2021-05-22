@@ -10,6 +10,10 @@ sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv"
 names(sw_right_data)<- c("Year","CatchMin","CatchMax","Nt")
 
 # Four periods of SLRs
+# - Period 1: 1648-1770: SLR = 1
+# - Period 2: 1771-1850: SLR ~ N(1.6, 0.04)
+# - Period 3: 1851-1973: SLR ~ N(1.09, 0.04)
+# - Period 4: 1974-Present: SLR = 1
 catch_list <- list(sw_right_data[which(sw_right_data$Year < 1771),1:3],
                    sw_right_data[which(sw_right_data$Year >= 1771 & sw_right_data$Year <= 1850),1:3],
                    sw_right_data[which(sw_right_data$Year >= 1851 & sw_right_data$Year <= 1973),1:3],
@@ -27,9 +31,9 @@ Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_rel_abundance))
                                     IA.obs = sw_right_rel_abundance$A_xy_mu_sim) #Using 0.2 as a proxy
 Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, sw_right_rel_abundance[,paste0("X",1:17)])
 
-# for(i in 1:10){
-#   dir.create(paste0("Model runs/Sensitivity_",i))
-# }
+for(i in 1:8){
+  dir.create(paste0("Model runs/Sensitivity_",i))
+}
 
 ################################################################################
 # Base model
@@ -40,12 +44,12 @@ sir_base <- list()
 for(i in 1:2){
   sir_base[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 1000,
+    n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 
@@ -98,7 +102,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 
@@ -148,7 +152,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 2, 0.05),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 
@@ -198,7 +202,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 8, 0.2),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 
@@ -248,7 +252,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(1), 
@@ -298,7 +302,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8),
+                             Pmsy = make_prior(runif, 0.5, 0.8),
                              catch_sample = make_prior(0) # Set to 0 used low catch only
                              ),
     catch_multipliers = make_multiplier_list(
@@ -350,7 +354,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8),
+                             Pmsy = make_prior(runif, 0.5, 0.8),
                              catch_sample = make_prior(1) # Set to 1 used high catch only
                              ),
     catch_multipliers = make_multiplier_list(
@@ -402,7 +406,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 
@@ -452,7 +456,7 @@ for(i in 1:2){
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.6, 0.8)),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 
