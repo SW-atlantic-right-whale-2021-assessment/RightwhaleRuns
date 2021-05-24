@@ -71,7 +71,7 @@ count.data.key = FALSE # Don't use count data
 growth.rate.obs = c(0.074, 0.033, FALSE) # Do not include growth rate
 growth.rate.Yrs = c(1995, 1996, 1997, 1998) # Not used
 catch.data = catch_list
-control = sir_control(threshold = 0.1 * 1e-63, progress_bar = TRUE)
+control = sir_control(threshold = 0.1 * 1e-2, progress_bar = TRUE)
 realized_prior = FALSE
 
 
@@ -309,6 +309,7 @@ while (i < n_resamples) {
   if(class(sample.K) == "try-error"){
     sample.K = 999
     K.error = TRUE
+    print("K_error")
   } else{
     sample.K = sample.K
     K.error = FALSE
