@@ -44,7 +44,7 @@ sir_base <- list()
 for(i in 1:2){
   sir_base[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
@@ -78,7 +78,7 @@ save(sir_base, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sir_base[[1]],  file_name = file_name)
 plot_trajectory(sir_base[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sir_base[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sir_base[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sir_base[[1]]),  file_name = file_name,   priors = list(sir_base[[2]]), inc_reference = FALSE)
 #plot_ioa(sir_base[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sir_base[[1]],  file_name = file_name)
 
@@ -97,7 +97,7 @@ sensitivity_1 <- list()
 for(i in 1:2){
   sensitivity_1[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(rlnormTrunc, -2.65, 0.5, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
@@ -131,7 +131,7 @@ save(sensitivity_1, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_1[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_1[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_1[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_1[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_1[[1]]),  file_name = file_name,   priors = list(sensitivity_1[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_1[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_1[[1]],  file_name = file_name)
 
@@ -147,7 +147,7 @@ sensitivity_2 <- list()
 for(i in 1:2){
   sensitivity_2[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 2, 0.05),
@@ -181,7 +181,7 @@ save(sensitivity_2, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_2[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_2[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_2[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_2[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_2[[1]]),  file_name = file_name,   priors = list(sensitivity_2[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_2[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_2[[1]],  file_name = file_name)
 
@@ -197,7 +197,7 @@ sensitivity_3 <- list()
 for(i in 1:2){
   sensitivity_3[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 8, 0.2),
@@ -231,7 +231,7 @@ save(sensitivity_3, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_3[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_3[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_3[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_3[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_3[[1]]),  file_name = file_name,   priors = list(sensitivity_3[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_3[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_3[[1]],  file_name = file_name)
 
@@ -247,7 +247,7 @@ sensitivity_4 <- list()
 for(i in 1:2){
   sensitivity_4[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
@@ -281,7 +281,7 @@ save(sensitivity_4, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_4[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_4[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_4[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_4[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_4[[1]]),  file_name = file_name,   priors = list(sensitivity_4[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_4[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_4[[1]],  file_name = file_name)
 
@@ -297,7 +297,7 @@ sensitivity_5 <- list()
 for(i in 1:2){
   sensitivity_5[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
@@ -333,7 +333,7 @@ save(sensitivity_5, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_5[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_5[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_5[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_5[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_5[[1]]),  file_name = file_name,   priors = list(sensitivity_5[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_5[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_5[[1]],  file_name = file_name)
 
@@ -349,7 +349,7 @@ sensitivity_6 <- list()
 for(i in 1:2){
   sensitivity_6[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
@@ -385,7 +385,7 @@ save(sensitivity_6, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_6[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_6[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_6[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_6[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_6[[1]]),  file_name = file_name,   priors = list(sensitivity_6[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_6[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_6[[1]],  file_name = file_name)
 
@@ -401,7 +401,7 @@ sensitivity_7 <- list()
 for(i in 1:2){
   sensitivity_7[[i]] <-  StateSpaceSIR(
     file_name = "NULL",
-    n_resamples = 10000,
+    n_resamples = 20000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(rinvgamma, 4, 0.1),
@@ -435,7 +435,7 @@ save(sensitivity_7, file = paste0(file_name, ".Rdata"))
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_7[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_7[[2]],  file_name = paste0(file_name, "prior"))
-plot_density(SIR = list(sensitivity_7[[1]]),  file_name = file_name,  lower = c(NA, NA, NA, NA, NA, 15000, NA, 24000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1), priors = list(sensitivity_7[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_7[[1]]),  file_name = file_name,   priors = list(sensitivity_7[[2]]), inc_reference = FALSE)
 #plot_ioa(sensitivity_7[[1]],  file_name = file_name, ioa_names = c("FG", "BG1") )
 summary_table(sensitivity_7[[1]],  file_name = file_name)
 
