@@ -47,7 +47,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -100,7 +100,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(rlnormTrunc, -2.65, 0.5, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -150,7 +150,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 100),
+                             var_N = var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 100),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -200,7 +200,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 2),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 2),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -250,7 +250,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -300,7 +300,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8),
                              catch_sample = make_prior(0) # Set to 0 used low catch only
@@ -352,7 +352,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8),
                              catch_sample = make_prior(1) # Set to 1 used high catch only
@@ -404,7 +404,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -453,7 +453,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -502,7 +502,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
@@ -551,7 +551,7 @@ for(i in 1:2){
     n_resamples = 10000,
     priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 4.02601e-06, 4.02601e-06 * 10),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.5, 0.8)),
     catch_multipliers = make_multiplier_list(
