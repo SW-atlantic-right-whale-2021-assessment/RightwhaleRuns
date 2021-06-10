@@ -18,6 +18,20 @@ for(i in 1:length(file_names)){
   load(file = paste0("Model runs/",file_names[i], ".Rdata"))
 }
 
+# Densities
+plot_density(SIR = list(sir_base[[1]]),  file_name = paste0("Model runs/",file_names[1]),   priors = list(sir_base[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_1[[1]]),  file_name = paste0("Model runs/",file_names[2]),   priors = list(sensitivity_1[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_2[[1]]),  file_name = paste0("Model runs/",file_names[3]),   priors = list(sensitivity_2[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_3[[1]]),  file_name = paste0("Model runs/",file_names[4]),   priors = list(sensitivity_3[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_4[[1]]),  file_name = paste0("Model runs/",file_names[5]),   priors = list(sensitivity_4[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_5[[1]]),  file_name = paste0("Model runs/",file_names[6]),   priors = list(sensitivity_5[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_6[[1]]),  file_name = paste0("Model runs/",file_names[7]),   priors = list(sensitivity_6[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_7[[1]]),  file_name = paste0("Model runs/",file_names[8]),   priors = list(sensitivity_7[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_8[[1]]),  file_name = paste0("Model runs/",file_names[9]),   priors = list(sensitivity_8[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_9[[1]]),  file_name = paste0("Model runs/",file_names[10]),   priors = list(sensitivity_9[[2]]), inc_reference = FALSE)
+plot_density(SIR = list(sensitivity_10[[1]]),  file_name = paste0("Model runs/",file_names[11]),   priors = list(sensitivity_10[[2]]), inc_reference = FALSE)
+
+
 
 
 #############################################################
@@ -70,15 +84,15 @@ compare_posteriors(
              sensitivity_9[[1]],
              sensitivity_10[[1]],
              model_average), 
-  model_names = c( "R", paste0("D ", 1:7), paste0("C ", 1:7), paste0("G ", 1:2), paste0("M ", 1:2), "MA"), 
+  model_names = c( "B", paste0("S-", 1:10), "MA"), 
   bayes_factor = bayes_vec,
-  file_name = "Cross scenario comparison/Figure_3_",
-  years = c(2008, 2019))
+  file_name = paste0("Model runs/",file_names[11]),
+  years = c(2021, 2030))
 
 # Plot and get parameter values from Model Average
-file_name <- "Model runs/Model average/model_average"
-plot_trajectory(new_mod, Reference = sir_reference[[1]],  file_name = file_name)
-plot_density(SIR = list(sir_reference[[1]], new_mod), priors = list(sir_reference[[2]]),  file_name = file_name,  lower = c(NA, 20000, NA, NA, NA, 15000, NA, 21000, NA, NA, NA, NA, 0.5, 0.85), upper = c(NA, NA, 2000, NA, 20500, NA, NA, NA,  0.06, NA, NA, NA, 1, 1))
-plot_ioa(new_mod,  file_name = file_name, ioa_names = c("FG", "BG1"))
-summary_table(new_mod,  file_name = file_name)
-save(new_mod, file = paste0(file_name, ".Rdata"))
+file_name <-paste0("Model runs/",file_names[11])
+plot_trajectory(model_average, Reference = sir_base[[1]],  file_name = file_name)
+plot_density(SIR = list(sir_base[[1]], model_average), priors = list(sir_base[[2]]),  file_name = file_name)
+plot_ioa(model_average,  file_name = file_name, ioa_names = c("FG", "BG1"))
+summary_table(model_average,  file_name = file_name)
+save(model_average, file = paste0(file_name, ".Rdata"))
