@@ -32,7 +32,7 @@ Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_rel_abundance))
                                     IA.obs = sw_right_rel_abundance$A_xy_mu_sim) #Using 0.2 as a proxy
 Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, sw_right_rel_abundance[,paste0("X",1:17)])
 
-for(i in 1:13){
+for(i in 1:14){
   dir.create(paste0("Model runs/Sensitivity_",i))
 }
 
@@ -46,7 +46,7 @@ for(i in 1:2){
   sir_base[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max =  make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -142,7 +142,7 @@ for(i in 1:2){
   sensitivity_2[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
+    priors = make_prior_list(r_max =  make_prior(rlnorm, -2.67, 0.3),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -164,7 +164,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-6, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sensitivity_2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -192,7 +192,7 @@ for(i in 1:2){
   sensitivity_3[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnormTrunc, -2.67, 0.3, 0.02, 0.11),
+    priors = make_prior_list(r_max = make_prior(rlnormTrunc, -2.67, 0.5, 0.02, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -214,7 +214,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-6, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sensitivity_3[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -242,7 +242,7 @@ for(i in 1:2){
   sensitivity_4[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 100),
                              z = make_prior(use = FALSE),
@@ -264,7 +264,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    control = sir_control(threshold = 0.5*1e-4, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
 }
 resample_summary_reference <- summary_sir(sensitivity_4[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -292,7 +292,7 @@ for(i in 1:2){
   sensitivity_5[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 2),
                              z = make_prior(use = FALSE),
@@ -341,7 +341,7 @@ for(i in 1:2){
   sensitivity_6[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -390,7 +390,7 @@ for(i in 1:2){
   sensitivity_7[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -440,7 +440,7 @@ for(i in 1:2){
   sensitivity_8[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -492,7 +492,7 @@ for(i in 1:2){
   sensitivity_9[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -542,7 +542,7 @@ for(i in 1:2){
   sensitivity_10[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -591,7 +591,7 @@ for(i in 1:2){
   sensitivity_11[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -640,7 +640,7 @@ for(i in 1:2){
   sensitivity_12[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -690,7 +690,7 @@ for(i in 1:2){
   sensitivity_13[[i]] <-  StateSpaceSIR(
     file_name = NULL,
     n_resamples = 20000,
-    priors = make_prior_list(r_max = make_prior(rlnorm, -2.67, 0.3),
+    priors = make_prior_list(r_max = make_prior(runif, 0, 0.11),
                              N_obs = make_prior(runif, 100, 10000),
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
@@ -728,3 +728,54 @@ plot_trajectory(sensitivity_13[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_13[[1]]),  file_name = file_name,   priors = list(sensitivity_13[[2]]), inc_reference = FALSE)
 plot_ioa(sensitivity_13[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_13[[1]],  file_name = file_name)
+
+
+
+################################################################################
+# Sensitivity 14 - power equation q
+################################################################################
+file_name <- "Model runs/sensitivity_14/sensitivity_14"
+
+sensitivity_14 <- list()
+for(i in 1:2){
+  sensitivity_14[[i]] <-  StateSpaceSIR(
+    file_name = NULL,
+    n_resamples = 20000,
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
+                             N_obs = make_prior(runif, 100, 10000),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
+                             z = make_prior(use = FALSE),
+                             q_IA1 = make_prior(rlnorm, log(0.5), 0.2),
+                             q_IA2 = make_prior(rnorm, 0, 0.1),
+                             Pmsy = make_prior(runif, 0.5, 0.8)),
+    catch_multipliers = make_multiplier_list(
+      make_prior(1),
+      make_prior(rnorm, 1.60 , 0.04), 
+      make_prior(rnorm, 1.09, 0.04),
+      make_prior(1)),
+    target.Yr = 2019,
+    num.haplotypes = 24,
+    output.Yrs = c(2021, 2030),
+    abs.abundance = Abs.Abundance.2010,
+    abs.abundance.key = TRUE,
+    rel.abundance = Rel.Abundance.SWRight,
+    rel.abundance.key = TRUE, # Indices of abundance
+    count.data = Count.Data, # Not used
+    count.data.key = FALSE, # Don't use count data
+    growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
+    growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
+    catch.data = catch_list,
+    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+}
+resample_summary_reference <- summary_sir(sensitivity_14[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sensitivity_14[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+save(sensitivity_14, file = paste0(file_name, ".Rdata"))
+
+
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sensitivity_14[[1]],  file_name = file_name)
+plot_trajectory(sensitivity_14[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sensitivity_14[[1]]),  file_name = file_name,   priors = list(sensitivity_14[[2]]), inc_reference = FALSE)
+plot_ioa(sensitivity_14[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sensitivity_14[[1]],  file_name = file_name)
