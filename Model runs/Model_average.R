@@ -12,26 +12,37 @@ file_names <- c("Base/Base",
                 "Sensitivity_8/Sensitivity_8",
                 "Sensitivity_9/Sensitivity_9",
                 "Sensitivity_10/Sensitivity_10",
+                "Sensitivity_11/Sensitivity_11",
+                "Sensitivity_12/Sensitivity_12",
+                "Sensitivity_13/Sensitivity_13",
+                "Sensitivity_14/Sensitivity_14",
                 "Model_average/Model_average")
 
 for(i in 1:length(file_names)){
   load(file = paste0("Model runs/",file_names[i], ".Rdata"))
 }
 
-# Densities
-plot_density(SIR = list(sir_base[[1]]),  file_name = paste0("Model runs/",file_names[1]),   priors = list(sir_base[[2]]), inc_reference = FALSE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_1[[1]]),  file_name = paste0("Model runs/",file_names[2]),   priors = list(sensitivity_1[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_2[[1]]),  file_name = paste0("Model runs/",file_names[3]),   priors = list(sensitivity_2[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_3[[1]]),  file_name = paste0("Model runs/",file_names[4]),   priors = list(sensitivity_3[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_4[[1]]),  file_name = paste0("Model runs/",file_names[5]),   priors = list(sensitivity_4[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_5[[1]]),  file_name = paste0("Model runs/",file_names[6]),   priors = list(sensitivity_5[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_6[[1]]),  file_name = paste0("Model runs/",file_names[7]),   priors = list(sensitivity_6[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_7[[1]]),  file_name = paste0("Model runs/",file_names[8]),   priors = list(sensitivity_7[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_8[[1]]),  file_name = paste0("Model runs/",file_names[9]),   priors = list(sensitivity_8[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_9[[1]]),  file_name = paste0("Model runs/",file_names[10]),   priors = list(sensitivity_9[[2]]), inc_reference = TRUE)
-plot_density(SIR = list(sir_base[[1]], sensitivity_10[[1]]),  file_name = paste0("Model runs/",file_names[11]),   priors = list(sensitivity_10[[2]]), inc_reference = TRUE)
+# Densities and trajectories with reference
+sir_list <- list(sir_base,
+                 sensitivity_1, 
+                 sensitivity_2, 
+                 sensitivity_3,
+                 sensitivity_4,
+                 sensitivity_5,
+                 sensitivity_6,
+                 sensitivity_7,
+                 sensitivity_8,
+                 sensitivity_9,
+                 sensitivity_10,
+                 sensitivity_11,
+                 sensitivity_12,
+                 sensitivity_13,
+                 sensitivity_14)
 
-
+for(i in 2:length(sir_list)){
+  plot_density(SIR = list(sir_list[[i]][[1]]),  file_name = paste0("Model runs/",file_names[i]),   priors = list(sir_list[[i]][[2]]), inc_reference = FALSE, target = ifelse(i == 7, FALSE, TRUE))
+  plot_trajectory( SIR = sir_list[[i]][[1]], Reference = sir_list[[1]][[1]],  file_name = paste0("Model runs/",file_names[i]))
+}
 
 
 #############################################################
@@ -43,12 +54,16 @@ bayes_f <- bayes_factor(SIR = list(sir_base[[1]],
                                    sensitivity_2[[1]], 
                                    sensitivity_3[[1]],
                                    sensitivity_4[[1]],
-                                   #sensitivity_5[[1]],
-                                   #sensitivity_6[[1]],
+                                   sensitivity_5[[1]],
+                                   sensitivity_6[[1]],
                                    sensitivity_7[[1]],
-                                   sensitivity_8[[1]],
-                                   sensitivity_9[[1]],
-                                   sensitivity_10[[1]]))
+                                   #sensitivity_8[[1]],
+                                   #sensitivity_9[[1]],
+                                   sensitivity_10[[1]],
+                                   sensitivity_11[[1]],
+                                   sensitivity_12[[1]],
+                                   sensitivity_13[[1]],
+                                   sensitivity_14[[1]]))
 
 
 # Create a new model based on bayes factors
@@ -57,16 +72,20 @@ model_average <- weight_model(SIR = list(sir_base[[1]],
                                    sensitivity_2[[1]], 
                                    sensitivity_3[[1]],
                                    sensitivity_4[[1]],
-                                   #sensitivity_5[[1]],
-                                   #sensitivity_6[[1]],
+                                   sensitivity_5[[1]],
+                                   sensitivity_6[[1]],
                                    sensitivity_7[[1]],
-                                   sensitivity_8[[1]],
-                                   sensitivity_9[[1]],
-                                   sensitivity_10[[1]]), 
+                                   #sensitivity_8[[1]],
+                                   #sensitivity_9[[1]],
+                                   sensitivity_10[[1]],
+                                   sensitivity_11[[1]],
+                                   sensitivity_12[[1]],
+                                   sensitivity_13[[1]],
+                                   sensitivity_14[[1]]), 
                         bayes_factor = bayes_f)
 
 # For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
-bayes_vec <- round(c(bayes_f[1:5],  NA, NA, bayes_f[6:9], NA), 2)
+bayes_vec <- round(c(bayes_f[1:8],  NA, NA, bayes_f[9:13], NA), 2)
 
 
 # Compare Aposteriors of all
@@ -83,16 +102,22 @@ compare_posteriors(
              sensitivity_8[[1]],
              sensitivity_9[[1]],
              sensitivity_10[[1]],
+             sensitivity_11[[1]],
+             sensitivity_12[[1]],
+             sensitivity_13[[1]],
+             sensitivity_14[[1]],
              model_average), 
-  model_names = c( "B", paste0("S-", 1:10), "MA"), 
+  model_names = c( "B", paste0("S-", 1:14), "MA"), 
   bayes_factor = bayes_vec,
-  file_name = paste0("Model runs/",file_names[12]),
+  file_name = paste0("Model runs/",file_names[16]),
   years = c(2021, 2030))
 
 # Plot and get parameter values from Model Average
-file_name <-paste0("Model runs/",file_names[12])
+file_name <-paste0("Model runs/",file_names[16])
 plot_trajectory(model_average, Reference = sir_base[[1]],  file_name = file_name)
-plot_density(SIR = list(sir_base[[1]], model_average), priors = list(sir_base[[2]]),  file_name = file_name)
+sir_list <- list(sir_base[[1]], model_average, sir_base[[2]])
+
+plot_density(SIR = sir_list[1:2], priors = liist(sir_list[[3]]),  file_name = file_name)
 plot_ioa(model_average,  file_name = file_name, ioa_names = NULL)
 summary_table(model_average,  file_name = file_name)
 save(model_average, file = paste0(file_name, ".Rdata"))
