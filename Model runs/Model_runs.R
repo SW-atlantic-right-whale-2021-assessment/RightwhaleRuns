@@ -85,7 +85,7 @@ summary_table(sir_base[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity 1 - lognormal prior on on Rmax 
+# Sensitivity 1 - lognormal prior on Rmax 
 ################################################################################
 file_name <- "Model runs/Sensitivity_1/Sensitivity_1"
 
@@ -133,7 +133,7 @@ summary_table(sensitivity_1[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity 2 - lognormal prior on Rmax smaller CV
+# Sensitivity 2 - smaller CV on lognromal prior on Rmax 
 ################################################################################
 file_name <- "Model runs/Sensitivity_2/Sensitivity_2"
 
@@ -182,7 +182,7 @@ summary_table(sensitivity_2[[1]],  file_name = file_name)
 ################################################################################
 # sensitivity_3
 ################################################################################
-# - Prior on rmax of lognormal(-2.67, 0.5)T(0.2, 0.11)
+# - Prior on rmax of lognormal(-2.65, 0.5)T(0.2, 0.11)
 # - Using rlnormTrunc fron "EnvStats" package
 
 file_name <- "Model runs/sensitivity_3/sensitivity_3"

@@ -53,8 +53,8 @@ bayes_f <- bayes_factor(SIR = list(sir_base[[1]],
                                    sensitivity_1[[1]], 
                                    sensitivity_2[[1]], 
                                    sensitivity_3[[1]],
-                                   sensitivity_4[[1]],
-                                   sensitivity_5[[1]],
+                                   #sensitivity_4[[1]],
+                                   #sensitivity_5[[1]],
                                    sensitivity_6[[1]],
                                    sensitivity_7[[1]],
                                    #sensitivity_8[[1]],
@@ -71,8 +71,8 @@ model_average <- weight_model(SIR = list(sir_base[[1]],
                                    sensitivity_1[[1]], 
                                    sensitivity_2[[1]], 
                                    sensitivity_3[[1]],
-                                   sensitivity_4[[1]],
-                                   sensitivity_5[[1]],
+                                   #sensitivity_4[[1]],
+                                   #sensitivity_5[[1]],
                                    sensitivity_6[[1]],
                                    sensitivity_7[[1]],
                                    #sensitivity_8[[1]],
@@ -85,8 +85,10 @@ model_average <- weight_model(SIR = list(sir_base[[1]],
                         bayes_factor = bayes_f)
 
 # For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
-bayes_vec <- round(c(bayes_f[1:8],  NA, NA, bayes_f[9:13], NA), 2)
-
+bayes_vec <- c(bayes_f[1:4], NA,NA, bayes_f[5:6],  NA, NA, bayes_f[7:11], NA)
+model_names <-  c( "B", paste0("S-", 1:14), "MA")
+table2 <- data.frame(Model = model_names, BayesFactor = round(bayes_vec,4))
+write.csv(table2, file = paste0(paste0("Model runs/",file_names[16],"_bayes_factors.csv")))
 
 # Compare Aposteriors of all
 compare_posteriors(
@@ -107,8 +109,8 @@ compare_posteriors(
              sensitivity_13[[1]],
              sensitivity_14[[1]],
              model_average), 
-  model_names = c( "B", paste0("S-", 1:14), "MA"), 
-  bayes_factor = bayes_vec,
+  model_names = model_names, 
+  bayes_factor = round(bayes_vec,2),
   file_name = paste0("Model runs/",file_names[16]),
   years = c(2021, 2030))
 
