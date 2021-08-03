@@ -40,7 +40,8 @@ sir_list <- list(sir_base,
                  sensitivity_14)
 
 for(i in 2:length(sir_list)){
-  plot_density(SIR = list(sir_list[[i]][[1]]),  file_name = paste0("Model runs/",file_names[i]),   priors = list(sir_list[[i]][[2]]), inc_reference = FALSE, target = ifelse(i == 7, FALSE, TRUE))
+  sir_list_tmp <- list(sir_list[[i]][[1]], sir_base[[1]], sir_list[[i]][[1]])
+  plot_density(SIR = sir_list_tmp,  file_name = paste0("Model runs/",file_names[i]),   priors = list(sir_list[[i]][[2]]), inc_reference = TRUE, target = ifelse(i == 7, FALSE, TRUE))
   plot_trajectory( SIR = sir_list[[i]][[1]], Reference = sir_list[[1]][[1]],  file_name = paste0("Model runs/",file_names[i]))
 }
 
@@ -117,9 +118,9 @@ compare_posteriors(
 # Plot and get parameter values from Model Average
 file_name <-paste0("Model runs/",file_names[16])
 plot_trajectory(model_average, Reference = sir_base[[1]],  file_name = file_name)
-sir_list <- list(sir_base[[1]], model_average, sir_base[[2]])
+sir_list_ma <- list(sir_base[[1]], model_average, sir_base[[2]])
 
-plot_density(SIR = sir_list[1:2], priors = liist(sir_list[[3]]),  file_name = file_name)
+plot_density(SIR = sir_list_ma[c(2,1,2)], priors = list(sir_list_ma[[3]]),  file_name = file_name, inc_reference = TRUE, target = FALSE)
 plot_ioa(model_average,  file_name = file_name, ioa_names = NULL)
 summary_table(model_average,  file_name = file_name)
 save(model_average, file = paste0(file_name, ".Rdata"))
