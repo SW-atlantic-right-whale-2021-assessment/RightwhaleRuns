@@ -9,10 +9,18 @@ output:
   pdf_document: default
 ---
 $$
-LL = 0.5 * (\textbf{I}-log(q))^T\Sigma^{-1}(\textbf{I}-log(q))
+LL = 0.5 * (\log(\text{Index})-log(q\hat{N}^{1+\beta}))^T\Sigma^{-1}(\log(\text{Index})-\log(q\hat{N}^{1+\beta}))
 $$
 $$
-\textbf{I} = \textbf{Index}/\hat{\textbf{N}}
+LL = 0.5 * (\log(\textbf{I})-log(q))^T\Sigma^{-1}(\log(\textbf{I})-\log(q))
+$$
+
+$$
+\textbf{I} = \text{Index}/\hat{N}^{1+\beta}
+$$
+
+$$
+q=\exp(\sum\Sigma^{-1}\log(\textbf{I})/\sum\Sigma^{-1})
 $$
 $$
 LL = 0.5 * 
@@ -171,16 +179,16 @@ $$
 # Sim analytical q
 ```{r}
 library(MASS)
-q <- 0.5
+q <- 0.5; beta = 0.2
 Nvec <- seq(50, 200, length.out = 4)
 varcov <- matrix(c(0.2,0.1,0,0,
                    0.1,0.2,0.1,0,
                    0,0.1,0.2,0.1,
                    0,0,0.1,0.2), 4, 4)
 hess <- solve(varcov)
-simddata <- exp(mvrnorm(10000, mu = log(Nvec * q) - diag(varcov)/2, Sigma = varcov))
+simddata <- exp(mvrnorm(10000, mu = log(Nvec^(beta+1) * q) - diag(varcov)/2, Sigma = varcov))
 
-q_est <- (apply(simddata,1, function(x) exp(sum((hess) %*% log(x/Nvec))/(sum(hess)))))
+q_est <- (apply(simddata,1, function(x) exp(sum((hess) %*% log(x/(Nvec^(beta+1))))/(sum(hess)))))
 mean(q_est)
 ```
 
