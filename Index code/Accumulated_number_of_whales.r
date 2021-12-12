@@ -9,7 +9,7 @@ library(matrixStats)
 ################################################################################
 # Read in and clean data
 ################################################################################
-balle<- read.csv ( "Data/ballena3.csv" , sep=";" , dec=".")
+balle<- read.csv ( "Data/SRW_aerial_survey_1999-2019.csv" , sep=";" , dec=".")
 
 
 balle<- balle [c(-11,-12),] #11 y 12 (2004) vuelos con el aerocomander// esta es la seleccion de datos que hice para la los paràmetros para el nùmero de ballenas que dan la vuelta anualmente por PV
