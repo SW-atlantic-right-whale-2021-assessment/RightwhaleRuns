@@ -101,9 +101,9 @@ plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_l
       # -- Assign to list
       for(i in indices){
         if(j == 1){
-          q_posteriors[[k]][[i]] <- c(q_posteriors_tmp[,rel.abundance$Index[which(rel.abundance$Index == i)]])
+          q_posteriors[[k]][[i]] <- c(q_posteriors_tmp[,which(rel.abundance$Index == i)])
         } else {
-          q_posteriors[[k]][[i]] <- c(q_posteriors[[k]][[i]], c(q_posteriors_tmp[,rel.abundance$Index[which(rel.abundance$Index == i)]]))
+          q_posteriors[[k]][[i]] <- c(q_posteriors[[k]][[i]], c(q_posteriors_tmp[,which(rel.abundance$Index == i)]))
         }
       }
     }
