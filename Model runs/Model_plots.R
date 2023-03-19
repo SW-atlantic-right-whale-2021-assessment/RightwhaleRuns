@@ -5,7 +5,7 @@ library(EnvStats)
 ################################################################################
 # Base model
 ################################################################################
-file_name <- "Model runs/Base/Base"
+file_name <- "Model runs/Base2/Base2"
 load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sir_base[[1]],  file_name = file_name)
 plot_trajectory(sir_base[[2]],  file_name = paste0(file_name, "prior"))
@@ -208,3 +208,58 @@ plot_trajectory(sensitivity_15[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_15[[1]], sensitivity_15[[2]], sir_base[[1]], sensitivity_15[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
 plot_ioa(sensitivity_15[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_15[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 1 - Hilborn et al 2014 depensation
+################################################################################
+file_name <- "Model runs/Depensation_1/Depensation_1"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation1[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation1[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation1[[1]], sir_depensation1[[2]], sir_base[[1]], sir_depensation1[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+plot_ioa(sir_depensation1[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation1[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 2 - Logistic depensation
+################################################################################
+file_name <- "Model runs/Depensation_2/Depensation_2"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation2[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation2[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation2[[1]], sir_depensation2[[2]], sir_base[[1]], sir_depensation2[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+plot_ioa(sir_depensation2[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation2[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 3 - Lin and Li 2002 depensation
+################################################################################
+file_name <- "Model runs/Depensation_3/Depensation_3"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation3[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation3[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation3[[1]], sir_depensation3[[2]], sir_base[[1]], sir_depensation3[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+plot_ioa(sir_depensation3[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation3[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 4 - Haider et al 2017 depensation
+################################################################################
+file_name <- "Model runs/Depensation_4/Depensation_4"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation4[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation4[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation4[[1]], sir_depensation4[[2]], sir_base[[1]], sir_depensation4[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+plot_ioa(sir_depensation4[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation4[[1]],  file_name = file_name)
+
+
+

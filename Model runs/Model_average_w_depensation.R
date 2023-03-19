@@ -1,3 +1,4 @@
+# Updated from Romero et al 2022 with models that include Allee effects
 library(StateSpaceSIR)
 
 # Load all the models
@@ -16,7 +17,12 @@ file_names <- c("Base/Base",
                 "Sensitivity_12/Sensitivity_12",
                 "Sensitivity_13/Sensitivity_13",
                 "sensitivity_14/sensitivity_14",
-                "Model_average/Model_average")
+                "Depensation_1/Depensation_1",
+                "Depensation_2/Depensation_2",
+                "Depensation_3/Depensation_3",
+                "Depensation_4/Depensation_4",
+                "Model_average_2/Model_average_2")
+
 
 for(i in 1:length(file_names)){
   load(file = paste0("Model runs/",file_names[i], ".Rdata"))
@@ -37,7 +43,11 @@ sir_list <- list(sir_base,
                  sensitivity_11,
                  sensitivity_12,
                  sensitivity_13,
-                 sensitivity_14)
+                 sensitivity_14,
+                 sir_depensation1,
+                 sir_depensation2,
+                 sir_depensation3,
+                 sir_depensation4)
 
 for(i in 1:length(sir_list)){
   plot_abs_abundance(sir_list[[i]][[1]],  file_name = paste0("Model runs/",file_names[i]))
@@ -68,7 +78,11 @@ bayes_f <- bayes_factor(SIR = list(sir_base[[1]],
                                    sensitivity_11[[1]],
                                    sensitivity_12[[1]],
                                    sensitivity_13[[1]],
-                                   sensitivity_14[[1]]))
+                                   sensitivity_14[[1]],
+                                   sir_depensation1[[1]],
+                                   sir_depensation2[[1]],
+                                   sir_depensation3[[1]],
+                                   sir_depensation4[[1]]))
 
 
 # Create a new model based on bayes factors
@@ -86,16 +100,22 @@ model_average <- weight_model(SIR = list(sir_base[[1]],
                                    sensitivity_11[[1]],
                                    sensitivity_12[[1]],
                                    sensitivity_13[[1]],
-                                   sensitivity_14[[1]]), 
+                                   sensitivity_14[[1]],
+                                   sir_depensation1[[1]],
+                                   sir_depensation2[[1]],
+                                   sir_depensation3[[1]],
+                                   sir_depensation4[[1]]), 
                         bayes_factor = bayes_f)
 
-# For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
-bayes_vec <- c(bayes_f[1:4], NA,NA, bayes_f[5:6],  NA, NA, bayes_f[7:11], NA)
-model_names <-  c( "B", paste0("S-", 1:14), "MA")
-table2 <- data.frame(Model = model_names, BayesFactor = round(bayes_vec,4))
-write.csv(table2, file = paste0(paste0("Model runs/",file_names[16],"_bayes_factors.csv")))
 
-# Compare Aposteriors of all
+# For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
+bayes_vec <- c(bayes_f[1:4], NA,NA, bayes_f[5:6],  NA, NA, bayes_f[7:15], NA)
+model_names <-  c( "B", paste0("S-", 1:18), "MA")
+table2 <- data.frame(Model = model_names, BayesFactor = round(bayes_vec,4))
+write.csv(table2, file = paste0(paste0("Model runs/",file_names[20],"_bayes_factors.csv")))
+
+
+# Compare posteriors of all
 compare_posteriors(
   reference_sir = TRUE, 
   SIR = list(sir_base[[1]],
@@ -113,14 +133,19 @@ compare_posteriors(
              sensitivity_12[[1]],
              sensitivity_13[[1]],
              sensitivity_14[[1]],
+             sir_depensation1[[1]],
+             sir_depensation2[[1]],
+             sir_depensation3[[1]],
+             sir_depensation4[[1]],
              model_average), 
   model_names = model_names, 
   bayes_factor = round(bayes_vec,2),
-  file_name = paste0("Model runs/",file_names[16]),
+  file_name = paste0("Model runs/",file_names[20]),
   years = c(2021, 2030))
 
+
 # Plot and get parameter values from Model Average
-file_name <-paste0("Model runs/",file_names[16])
+file_name <-paste0("Model runs/",file_names[20])
 trajectory_summary_reference <- summary_sir(model_average$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
 plot_trajectory(model_average, Reference = sir_base[[1]],  file_name = file_name)
 plot_abs_abundance(model_average,  file_name = file_name)
