@@ -4,3 +4,10 @@ Model runs/Base/Base.Rdata
 Model runs/Model_average/Model_average.Rdata
 Model runs/Sensitivity_1/Sensitivity_1.Rdata
 .Rproj.user
+*.Rdata
+Model runs/Sensitivity_5/Sensitivity_5.Rdata
+Model runs/Sensitivity_6/Sensitivity_6.Rdata
+*.Rdata
+Model runs/Sensitivity_9/Sensitivity_9.Rdata
+Model runs/Sensitivity_9/Sensitivity_9.Rdata
+Model runs/Sensitivity_5/Sensitivity_5.Rdata

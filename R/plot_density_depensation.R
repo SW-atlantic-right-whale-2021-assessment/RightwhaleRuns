@@ -187,13 +187,13 @@ plot_density_depensation <- function(SIR, posteriors_lwd = rep(3, length(SIR)), 
         }
       }
       
-      if(i %in% c(ceiling(length(vars)/4) * 1:3))  {
+      if(i %% 4 == 0)  {
         plot.new()
         plot.new()
       }
       
       
-      if(i %in% c(1, ceiling(length(vars)/4) * 1:4 + 1) ) {
+      if((i-1) %% 4 == 0 ) {
         mtext(side = 2, "Density", line = 1, cex= 0.75)
       }
       

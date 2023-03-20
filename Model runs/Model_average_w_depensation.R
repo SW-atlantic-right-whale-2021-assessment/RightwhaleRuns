@@ -2,7 +2,7 @@
 library(StateSpaceSIR)
 
 # Load all the models
-file_names <- c("Base/Base",
+file_names <- c("Base2/Base2",
                 "Sensitivity_1/Sensitivity_1",
                 "Sensitivity_2/Sensitivity_2",
                 "Sensitivity_3/Sensitivity_3",
@@ -27,6 +27,18 @@ file_names <- c("Base/Base",
 for(i in 1:length(file_names)){
   load(file = paste0("Model runs/",file_names[i], ".Rdata"))
 }
+
+
+# Plot surplus production function
+plot_suplus_prod(SIRlist = list(sir_base[[1]],
+                      sir_depensation1[[1]],
+                      sir_depensation2[[1]],
+                      sir_depensation3[[1]],
+                      sir_depensation4[[1]]),
+                 coolors = c("#FB8B24", "#D90368", "#820263", "#291720", "#04A777"),
+                 model_names = c("Base", "Scen15", "Scen16", "Scen17", "Scen18"),
+                 file_name = "Model runs/Model_average_2/Model_average_2")
+
 
 # Densities and trajectories with reference
 sir_list <- list(sir_base,
