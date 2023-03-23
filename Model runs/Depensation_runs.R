@@ -32,7 +32,7 @@ Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_rel_abundance))
                                     IA.obs = sw_right_rel_abundance$A_xy_mu_sim) #Using 0.2 as a proxy
 Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, sw_right_rel_abundance[,paste0("X",1:17)])
 
-for(i in 1:4){
+for(i in 1:8){
   dir.create(paste0("Model runs/Depensation_",i))
 }
 
@@ -287,5 +287,212 @@ plot_trajectory(sir_depensation4[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sir_depensation4[[1]]),  file_name = file_name,   priors = list(sir_depensation4[[2]]), inc_reference = FALSE)
 plot_ioa(sir_depensation4[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_depensation4[[1]],  file_name = file_name)
+
+
+
+
+
+################################################################################
+# Depensation model 5 - Hilborn et al 2014 w beta prior
+################################################################################
+file_name <- "Model runs/Depensation_5/Depensation_5"
+
+sir_depensation5 <- list()
+for(i in 1:2){
+  sir_depensation5[[i]] <-  StateSpaceSIR(
+    file_name = NULL,
+    allee_model = 1,
+    n_resamples = 20000,
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
+                             N_obs = make_prior(runif, 100, 10000),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
+                             z = make_prior(use = FALSE),
+                             Pmsy = make_prior(runif, 0.5, 0.8),
+                             P50 = make_prior(rbeta, 1, 10)), # curve(dbeta(x, 1, 10), from = 0 ,to = 1)
+    catch_multipliers = make_multiplier_list(
+      make_prior(1),
+      make_prior(rnorm, 1.60 , 0.04), 
+      make_prior(rnorm, 1.09, 0.04),
+      make_prior(1)),
+    target.Yr = 2019,
+    num.haplotypes = 24,
+    output.Yrs = c(2021, 2030),
+    abs.abundance = Abs.Abundance.2010,
+    abs.abundance.key = TRUE,
+    rel.abundance = Rel.Abundance.SWRight,
+    rel.abundance.key = TRUE, # Indices of abundance
+    count.data = Count.Data, # Not used
+    count.data.key = FALSE, # Don't use count data
+    growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
+    growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
+    catch.data = catch_list,
+    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+}
+resample_summary_reference <- summary_sir(sir_depensation5[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sir_depensation5[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+save(sir_depensation5, file = paste0(file_name, ".Rdata"))
+
+
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation5[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation5[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sir_depensation5[[1]]),  file_name = file_name,   priors = list(sir_depensation5[[2]]), inc_reference = FALSE)
+plot_ioa(sir_depensation5[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation5[[1]],  file_name = file_name)
+
+
+
+################################################################################
+# Depensation model 6 - Logistic w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_6/Depensation_6"
+
+sir_depensation6 <- list()
+for(i in 1:2){
+  sir_depensation6[[i]] <-  StateSpaceSIR(
+    file_name = NULL,
+    allee_model = 2,
+    n_resamples = 20000,
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
+                             N_obs = make_prior(runif, 100, 10000),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
+                             z = make_prior(use = FALSE),
+                             Pmsy = make_prior(runif, 0.5, 0.8),
+                             P50 = make_prior(rbeta, 1, 10)), # curve(dbeta(x, 1, 10), from = 0 ,to = 1)
+    catch_multipliers = make_multiplier_list(
+      make_prior(1),
+      make_prior(rnorm, 1.60 , 0.04), 
+      make_prior(rnorm, 1.09, 0.04),
+      make_prior(1)),
+    target.Yr = 2019,
+    num.haplotypes = 24,
+    output.Yrs = c(2021, 2030),
+    abs.abundance = Abs.Abundance.2010,
+    abs.abundance.key = TRUE,
+    rel.abundance = Rel.Abundance.SWRight,
+    rel.abundance.key = TRUE, # Indices of abundance
+    count.data = Count.Data, # Not used
+    count.data.key = FALSE, # Don't use count data
+    growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
+    growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
+    catch.data = catch_list,
+    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+}
+resample_summary_reference <- summary_sir(sir_depensation6[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sir_depensation6[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+save(sir_depensation6, file = paste0(file_name, ".Rdata"))
+
+
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation6[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation6[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sir_depensation6[[1]]),  file_name = file_name,   priors = list(sir_depensation6[[2]]), inc_reference = FALSE)
+plot_ioa(sir_depensation6[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation6[[1]],  file_name = file_name)
+
+
+
+################################################################################
+# Depensation model 7 - Lin & Li 2002 w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_7/Depensation_7"
+
+sir_depensation7 <- list()
+for(i in 1:2){
+  sir_depensation7[[i]] <-  StateSpaceSIR(
+    file_name = NULL,
+    allee_model = 3,
+    n_resamples = 20000,
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
+                             N_obs = make_prior(runif, 100, 10000),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
+                             z = make_prior(use = FALSE),
+                             Pmsy = make_prior(runif, 0.6, 0.8),
+                             P50 = make_prior(rbeta, 1, 10)), # curve(dbeta(x, 1, 10), from = 0 ,to = 1)
+    catch_multipliers = make_multiplier_list(
+      make_prior(1),
+      make_prior(rnorm, 1.60 , 0.04), 
+      make_prior(rnorm, 1.09, 0.04),
+      make_prior(1)),
+    target.Yr = 2019,
+    num.haplotypes = 24,
+    output.Yrs = c(2021, 2030),
+    abs.abundance = Abs.Abundance.2010,
+    abs.abundance.key = TRUE,
+    rel.abundance = Rel.Abundance.SWRight,
+    rel.abundance.key = TRUE, # Indices of abundance
+    count.data = Count.Data, # Not used
+    count.data.key = FALSE, # Don't use count data
+    growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
+    growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
+    catch.data = catch_list,
+    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+}
+resample_summary_reference <- summary_sir(sir_depensation7[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sir_depensation7[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+save(sir_depensation7, file = paste0(file_name, ".Rdata"))
+
+
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation7[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation7[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sir_depensation7[[1]]),  file_name = file_name,   priors = list(sir_depensation7[[2]]), inc_reference = FALSE)
+plot_ioa(sir_depensation7[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation7[[1]],  file_name = file_name)
+
+
+
+################################################################################
+# Depensation model 8 - Haider et al 2017 w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_8/Depensation_8"
+
+sir_depensation8 <- list()
+for(i in 1:2){
+  sir_depensation8[[i]] <-  StateSpaceSIR(
+    file_name = NULL,
+    allee_model = 4,
+    n_resamples = 20000,
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
+                             N_obs = make_prior(runif, 100, 10000),
+                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
+                             z = make_prior(use = FALSE),
+                             Pmsy = make_prior(runif, 0.6, 0.8),
+                             P50 = P50 = make_prior(rbeta, 1, 10)), # curve(dbeta(x, 1, 10), from = 0 ,to = 1)
+    catch_multipliers = make_multiplier_list(
+      make_prior(1),
+      make_prior(rnorm, 1.60 , 0.04), 
+      make_prior(rnorm, 1.09, 0.04),
+      make_prior(1)),
+    target.Yr = 2019,
+    num.haplotypes = 24,
+    output.Yrs = c(2021, 2030),
+    abs.abundance = Abs.Abundance.2010,
+    abs.abundance.key = TRUE,
+    rel.abundance = Rel.Abundance.SWRight,
+    rel.abundance.key = TRUE, # Indices of abundance
+    count.data = Count.Data, # Not used
+    count.data.key = FALSE, # Don't use count data
+    growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
+    growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
+    catch.data = catch_list,
+    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+}
+resample_summary_reference <- summary_sir(sir_depensation8[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
+trajectory_summary_reference <- summary_sir(sir_depensation8[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
+save(sir_depensation8, file = paste0(file_name, ".Rdata"))
+
+
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation8[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation8[[2]],  file_name = paste0(file_name, "prior"))
+plot_density(SIR = list(sir_depensation8[[1]]),  file_name = file_name,   priors = list(sir_depensation8[[2]]), inc_reference = FALSE)
+plot_ioa(sir_depensation8[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation8[[1]],  file_name = file_name)
+
 
 
