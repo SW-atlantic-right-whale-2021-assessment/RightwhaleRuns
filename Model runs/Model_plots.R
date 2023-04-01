@@ -11,7 +11,7 @@ plot_trajectory(sir_base[[1]],  file_name = file_name)
 plot_trajectory(sir_base[[2]],  file_name = paste0(file_name, "prior"))
 plot_abs_abundance(sir_base[[1]],  file_name = file_name)
 plot_density(SIR = sir_base,  file_name = file_name, posteriors_lwd = c(3,1), posteriors_lty = rep(1, 2), posteriors_col = c(1,1))
-plot_ioa(sir_base[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sir_base[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_base[[1]],  file_name = file_name)
 
 
@@ -23,7 +23,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_1[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_1[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_1[[1]], sensitivity_1[[2]], sir_base[[1]], sensitivity_1[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_1[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_1[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_1[[1]],  file_name = file_name)
 
 
@@ -35,7 +35,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_2[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_2[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_2[[1]], sensitivity_2[[2]], sir_base[[1]], sensitivity_2[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_2[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_2[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_2[[1]],  file_name = file_name)
 
 ################################################################################
@@ -48,7 +48,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_3[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_3[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_3[[1]], sensitivity_3[[2]], sir_base[[1]], sensitivity_3[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_3[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_3[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_3[[1]],  file_name = file_name)
 
 
@@ -62,7 +62,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_4[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_4[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_4[[1]], sensitivity_4[[2]], sir_base[[1]], sensitivity_4[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_4[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_4[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_4[[1]],  file_name = file_name)
 
 
@@ -76,7 +76,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_5[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_5[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_5[[1]], sensitivity_5[[2]], sir_base[[1]], sensitivity_5[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_5[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_5[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_5[[1]],  file_name = file_name)
 
 
@@ -90,7 +90,7 @@ plot_trajectory(sensitivity_6[[1]],  file_name = file_name)
 plot_abs_abundance(sensitivity_6[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_6[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_6[[1]], sensitivity_6[[2]], sir_base[[1]], sensitivity_6[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_6[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_6[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_6[[1]],  file_name = file_name)
 
 
@@ -103,7 +103,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_7[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_7[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_7[[1]], sensitivity_7[[2]], sir_base[[1]], sensitivity_7[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_7[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_7[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_7[[1]],  file_name = file_name)
 
 
@@ -117,7 +117,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_8[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_8[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_8[[1]], sensitivity_8[[2]], sir_base[[1]], sensitivity_8[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_8[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_8[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_8[[1]],  file_name = file_name)
 
 
@@ -131,7 +131,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_9[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_9[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_9[[1]], sensitivity_9[[2]], sir_base[[1]], sensitivity_9[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_9[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_9[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_9[[1]],  file_name = file_name)
 
 
@@ -143,7 +143,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_10[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_10[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_10[[1]], sensitivity_10[[2]], sir_base[[1]], sensitivity_10[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_10[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_10[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_10[[1]],  file_name = file_name)
 
 
@@ -155,7 +155,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_11[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_11[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_11[[1]], sensitivity_11[[2]], sir_base[[1]], sensitivity_11[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_11[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_11[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_11[[1]],  file_name = file_name)
 
 
@@ -167,7 +167,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_12[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_12[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_12[[1]], sensitivity_12[[2]], sir_base[[1]], sensitivity_12[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_12[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_12[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_12[[1]],  file_name = file_name)
 
 
@@ -180,7 +180,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_13[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_13[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_13[[1]], sensitivity_13[[2]], sir_base[[1]], sensitivity_13[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_13[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_13[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_13[[1]],  file_name = file_name)
 
 
@@ -193,7 +193,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_14[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_14[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_14[[1]], sensitivity_14[[2]], sir_base[[1]], sensitivity_14[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_14[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_14[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_14[[1]],  file_name = file_name)
 
 
@@ -206,7 +206,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sensitivity_15[[1]],  file_name = file_name)
 plot_trajectory(sensitivity_15[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sensitivity_15[[1]], sensitivity_15[[2]], sir_base[[1]], sensitivity_15[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
-plot_ioa(sensitivity_15[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sensitivity_15[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_15[[1]],  file_name = file_name)
 
 
@@ -219,7 +219,7 @@ plot_trajectory(sir_depensation1[[1]],  file_name = file_name)
 plot_trajectory(sir_depensation1[[2]],  file_name = paste0(file_name, "prior"))
 plot_density_depensation(SIR = list(sir_depensation1[[1]], sir_depensation1[[2]], sir_base[[1]], sir_depensation1[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
 dev.off()
-plot_ioa(sir_depensation1[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sir_depensation1[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_depensation1[[1]],  file_name = file_name)
 
 
@@ -232,7 +232,7 @@ plot_trajectory(sir_depensation2[[1]],  file_name = file_name)
 plot_trajectory(sir_depensation2[[2]],  file_name = paste0(file_name, "prior"))
 plot_density_depensation(SIR = list(sir_depensation2[[1]], sir_depensation2[[2]], sir_base[[1]], sir_depensation2[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
 dev.off()
-plot_ioa(sir_depensation2[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sir_depensation2[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_depensation2[[1]],  file_name = file_name)
 
 
@@ -245,7 +245,7 @@ plot_trajectory(sir_depensation3[[1]],  file_name = file_name)
 plot_trajectory(sir_depensation3[[2]],  file_name = paste0(file_name, "prior"))
 plot_density_depensation(SIR = list(sir_depensation3[[1]], sir_depensation3[[2]], sir_base[[1]], sir_depensation3[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
 dev.off()
-plot_ioa(sir_depensation3[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sir_depensation3[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_depensation3[[1]],  file_name = file_name)
 
 
@@ -258,8 +258,59 @@ plot_trajectory(sir_depensation4[[1]],  file_name = file_name)
 plot_trajectory(sir_depensation4[[2]],  file_name = paste0(file_name, "prior"))
 plot_density_depensation(SIR = list(sir_depensation4[[1]], sir_depensation4[[2]], sir_base[[1]], sir_depensation4[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
 dev.off()
-plot_ioa(sir_depensation4[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sir_depensation4[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_depensation4[[1]],  file_name = file_name)
 
+
+################################################################################
+# Depensation 5 - Hilborn et al 2014 depensation w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_5/Depensation_5"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation5[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation5[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation5[[1]], sir_depensation5[[2]], sir_base[[1]], sir_depensation5[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+# plot_ioa(sir_depensation5[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation5[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 6 - Logistic depensation w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_6/Depensation_6"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation6[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation6[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation6[[1]], sir_depensation6[[2]], sir_base[[1]], sir_depensation6[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+# plot_ioa(sir_depensation6[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation6[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 7 - Lin and Li 2002 depensation w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_7/Depensation_7"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation7[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation7[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation7[[1]], sir_depensation7[[2]], sir_base[[1]], sir_depensation7[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+# plot_ioa(sir_depensation7[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation7[[1]],  file_name = file_name)
+
+
+################################################################################
+# Depensation 8 - Haider et al 2017 depensation w/ beta prior
+################################################################################
+file_name <- "Model runs/Depensation_8/Depensation_8"
+load(file = paste0(file_name, ".Rdata"))
+plot_trajectory(sir_depensation8[[1]],  file_name = file_name)
+plot_trajectory(sir_depensation8[[2]],  file_name = paste0(file_name, "prior"))
+plot_density_depensation(SIR = list(sir_depensation8[[1]], sir_depensation8[[2]], sir_base[[1]], sir_depensation8[[1]]),  file_name = file_name,  posteriors_lwd = c(3,1,3,3), posteriors_lty = c(1,1,2,1), posteriors_col = c(1,1,"grey45",1))
+dev.off()
+# plot_ioa(sir_depensation8[[1]],  file_name = file_name, ioa_names = NULL )
+summary_table(sir_depensation8[[1]],  file_name = file_name)
 
 

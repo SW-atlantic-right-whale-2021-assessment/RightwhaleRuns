@@ -461,7 +461,7 @@ for(i in 1:2){
                              var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
                              z = make_prior(use = FALSE),
                              Pmsy = make_prior(runif, 0.6, 0.8),
-                             P50 = P50 = make_prior(rbeta, 1, 10)), # curve(dbeta(x, 1, 10), from = 0 ,to = 1)
+                             P50 = make_prior(rbeta, 1, 10)), # curve(dbeta(x, 1, 10), from = 0 ,to = 1)
     catch_multipliers = make_multiplier_list(
       make_prior(1),
       make_prior(rnorm, 1.60 , 0.04), 

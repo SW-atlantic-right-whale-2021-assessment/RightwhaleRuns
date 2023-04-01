@@ -7,6 +7,10 @@ file_names <- c("Base2/Base2",
                 "Depensation_2/Depensation_2",
                 "Depensation_3/Depensation_3",
                 "Depensation_4/Depensation_4",
+                "Depensation_5/Depensation_5",
+                "Depensation_6/Depensation_6",
+                "Depensation_7/Depensation_7",
+                "Depensation_8/Depensation_8",
                 "Model_average_2/Model_average_2")
 
 
@@ -15,15 +19,30 @@ for(i in 1:length(file_names)){
 }
 
 
+
+
+
 # Plot surplus production function
 plot_suplus_prod(SIRlist = list(sir_base[[1]],
-                      sir_depensation1[[1]],
-                      sir_depensation2[[1]],
-                      sir_depensation3[[1]],
-                      sir_depensation4[[1]]),
+                                sir_depensation1[[1]],
+                                sir_depensation5[[1]],
+                                sir_depensation2[[1]],
+                                sir_depensation6[[1]]),
                  coolors = c("#FB8B24", "#D90368", "#820263", "#291720", "#04A777"),
-                 model_names = c("Base", "Scen15", "Scen16", "Scen17", "Scen18"),
-                 file_name = "Model runs/Model_average_2/Model_average_2")
+                 model_names = c("Base", "Scen15", "Scen15b", "Scen16", "Scen16b"),
+                 file_name = "Model runs/Model_average_2/Model_average_2_set1")
+
+
+# Plot surplus production function
+plot_suplus_prod(SIRlist = list(sir_base[[1]],
+                                sir_depensation3[[1]],
+                                sir_depensation7[[1]],
+                                sir_depensation4[[1]],
+                                sir_depensation8[[1]]),
+                 coolors = c("#FB8B24", "#D90368", "#820263", "#291720", "#04A777"),
+                 model_names = c("Base", "Scen17", "Scen17b", "Scen18", "Scen18b"),
+                 file_name = "Model runs/Model_average_2/Model_average_2_set2")
+
 
 
 # Densities and trajectories with reference
@@ -31,7 +50,11 @@ sir_list <- list(sir_base,
                  sir_depensation1,
                  sir_depensation2,
                  sir_depensation3,
-                 sir_depensation4)
+                 sir_depensation4,
+                 sir_depensation5,
+                 sir_depensation6,
+                 sir_depensation7,
+                 sir_depensation8)
 
 for(i in 1:length(sir_list)){
   plot_abs_abundance(sir_list[[i]][[1]],  file_name = paste0("Model runs/",file_names[i]))
@@ -52,23 +75,42 @@ bayes_f <- bayes_factor(SIR = list(sir_base[[1]],
                                    sir_depensation1[[1]],
                                    sir_depensation2[[1]],
                                    sir_depensation3[[1]],
-                                   sir_depensation4[[1]]))
+                                   sir_depensation4[[1]],
+                                   sir_depensation5[[1]],
+                                   sir_depensation6[[1]],
+                                   sir_depensation7[[1]],
+                                   sir_depensation8[[1]]))
+
+waic <- waic(SIR = list(sir_base[[1]],
+                        sir_depensation1[[1]],
+                        sir_depensation2[[1]],
+                        sir_depensation3[[1]],
+                        sir_depensation4[[1]],
+                        sir_depensation5[[1]],
+                        sir_depensation6[[1]],
+                        sir_depensation7[[1]],
+                        sir_depensation8[[1]]))
 
 
 # Create a new model based on bayes factors
 model_average <- weight_model(SIR = list(sir_base[[1]],
-                                   sir_depensation1[[1]],
-                                   sir_depensation2[[1]],
-                                   sir_depensation3[[1]],
-                                   sir_depensation4[[1]]), 
-                        bayes_factor = bayes_f)
+                                         sir_depensation1[[1]],
+                                         sir_depensation2[[1]],
+                                         sir_depensation3[[1]],
+                                         sir_depensation4[[1]],
+                                         sir_depensation5[[1]],
+                                         sir_depensation6[[1]],
+                                         sir_depensation7[[1]],
+                                         sir_depensation8[[1]]), 
+                              bayes_factor = bayes_f)
 
 
 # For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
-bayes_vec <- c(bayes_f[1:5], NA)
-model_names <-  c( "B", paste0("S-", 15:18), "MA")
-table2 <- data.frame(Model = model_names, BayesFactor = round(bayes_vec,4))
-write.csv(table2, file = paste0(paste0("Model runs/",file_names[20],"_bayes_factors.csv")))
+bayes_vec <- c(bayes_f[1:9], NA)
+waic <- c(waic[1:9], NA)
+model_names <-  c("Base", "Scen15", "Scen15b", "Scen16", "Scen16b", "Scen17", "Scen17b", "Scen18", "Scen18b", "MA")
+table2 <- data.frame(Model = model_names, BayesFactor = round(bayes_vec,4), WAIC = round(waic, 4))
+write.csv(table2, file = paste0(paste0("Model runs/",file_names[10],"_bayes_factors_and_waic.csv")))
 
 
 # Compare posteriors of all
@@ -79,15 +121,31 @@ compare_posteriors(
              sir_depensation2[[1]],
              sir_depensation3[[1]],
              sir_depensation4[[1]],
+             sir_depensation5[[1]],
+             sir_depensation6[[1]],
+             sir_depensation7[[1]],
+             sir_depensation8[[1]],
              model_average), 
   model_names = model_names, 
   bayes_factor = round(bayes_vec,2),
-  file_name = paste0("Model runs/",file_names[20]),
+  file_name = paste0("Model runs/",file_names[10]),
   years = c(2021, 2030))
 
 
+# Plot IOA medians
+plot_ioa_medians(SIR = list(sir_base[[1]],
+                            sir_depensation1[[1]],
+                            sir_depensation2[[1]],
+                            sir_depensation3[[1]],
+                            sir_depensation4[[1]],
+                            model_average
+),
+model_names = c("Base", "Hilborn", "Logistic", "Lin & Li", "Haider", "Model average"),
+file_name = paste0("Model runs/",file_names[10]))
+
+
 # Plot and get parameter values from Model Average
-file_name <-paste0("Model runs/",file_names[20])
+file_name <-paste0("Model runs/",file_names[10])
 trajectory_summary_reference <- summary_sir(model_average$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
 plot_trajectory(model_average, Reference = sir_base[[1]],  file_name = file_name)
 plot_abs_abundance(model_average,  file_name = file_name)
