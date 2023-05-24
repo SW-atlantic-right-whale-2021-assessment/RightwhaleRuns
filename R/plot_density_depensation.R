@@ -134,7 +134,7 @@ plot_density_depensation <- function(SIR, posteriors_lwd = rep(3, length(SIR)), 
       pdf( file = filename , width=10, height = 110 / 25.4, family = "serif")
     }
     
-    par(mfrow = c(ceiling(length(vars)/4), 6))
+    par(mfrow = c(ceiling(length(vars)/5), 7))
     par( mar=c(3, 0.05 , 0.5 , 0.55) , oma=c(0 , 0 , 0 , 0), tcl = -0.35, mgp = c(1.75, 0.5, 0))
     
     plot.new()
@@ -179,7 +179,7 @@ plot_density_depensation <- function(SIR, posteriors_lwd = rep(3, length(SIR)), 
       
       
       for(k in 1:length(posterior_dens)){
-        if(i == 4 & SIR[[k]]$inputs$allee_model !=0){
+        if(i == 4 & SIR[[k]]$inputs$allee_model !=0){ # Dont plot Pd parameter for depensation models
           lines(posterior_dens[[k]], lwd = posteriors_lwd[k], lty = posteriors_lty[k], col = posteriors_col[k])
         }
         if(i != 4){
@@ -187,13 +187,13 @@ plot_density_depensation <- function(SIR, posteriors_lwd = rep(3, length(SIR)), 
         }
       }
       
-      if(i %% 4 == 0)  {
+      if(i %% 5 == 0)  {
         plot.new()
         plot.new()
       }
       
       
-      if((i-1) %% 4 == 0 ) {
+      if((i-1) %% 5 == 0 ) {
         mtext(side = 2, "Density", line = 1, cex= 0.75)
       }
       

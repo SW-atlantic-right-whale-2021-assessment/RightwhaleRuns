@@ -69,7 +69,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_base[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sir_base[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -117,7 +117,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_1[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_1[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -164,8 +164,8 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    control = sir_control(threshold = 1e-6, progress_bar = TRUE),
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_2[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -215,7 +215,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_3[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_3[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -265,7 +265,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 0.5*1e-4, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_4[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_4[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -315,7 +315,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_5[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_5[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -364,7 +364,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_6[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_6[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -413,7 +413,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_7[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_7[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -465,7 +465,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_8[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_8[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -517,7 +517,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_9[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_9[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -565,7 +565,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_10[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_10[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -614,7 +614,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_11[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_11[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -663,7 +663,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_12[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_12[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -714,7 +714,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_13[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_13[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -766,7 +766,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_14[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_14[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)
@@ -816,7 +816,7 @@ for(i in 1:2){
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
     control = sir_control(threshold = 1e-5, progress_bar = TRUE),
-    realized_prior = ifelse(i == 1, "FALSE", "TRUE"))
+    realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_15[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
 trajectory_summary_reference <- summary_sir(sensitivity_15[[1]]$resamples_trajectories, object = "Trajectory_Summary", file_name = file_name)

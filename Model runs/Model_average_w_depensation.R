@@ -73,42 +73,47 @@ for(i in 2:length(sir_list)){
 # Get bayes factor for models with comparable likelihoods
 bayes_f <- bayes_factor(SIR = list(sir_base[[1]],
                                    sir_depensation1[[1]],
+                                   # sir_depensation5[[1]],
                                    sir_depensation2[[1]],
+                                   # sir_depensation6[[1]],
                                    sir_depensation3[[1]],
-                                   sir_depensation4[[1]],
-                                   sir_depensation5[[1]],
-                                   sir_depensation6[[1]],
-                                   sir_depensation7[[1]],
-                                   sir_depensation8[[1]]))
+                                   # sir_depensation7[[1]],
+                                   sir_depensation4[[1]]
+                                   # sir_depensation8[[1]]
+))
 
 waic <- waic(SIR = list(sir_base[[1]],
                         sir_depensation1[[1]],
+                        # sir_depensation5[[1]],
                         sir_depensation2[[1]],
+                        # sir_depensation6[[1]],
                         sir_depensation3[[1]],
-                        sir_depensation4[[1]],
-                        sir_depensation5[[1]],
-                        sir_depensation6[[1]],
-                        sir_depensation7[[1]],
-                        sir_depensation8[[1]]))
+                        # sir_depensation7[[1]],
+                        sir_depensation4[[1]]
+                        # sir_depensation8[[1]]
+                        ))
 
 
 # Create a new model based on bayes factors
 model_average <- weight_model(SIR = list(sir_base[[1]],
                                          sir_depensation1[[1]],
+                                         #sir_depensation5[[1]],
                                          sir_depensation2[[1]],
+                                         #sir_depensation6[[1]],
                                          sir_depensation3[[1]],
-                                         sir_depensation4[[1]],
-                                         sir_depensation5[[1]],
-                                         sir_depensation6[[1]],
-                                         sir_depensation7[[1]],
-                                         sir_depensation8[[1]]), 
-                              bayes_factor = bayes_f)
+                                         #sir_depensation7[[1]],
+                                         sir_depensation4[[1]]
+                                         #sir_depensation8[[1]]
+), 
+bayes_factor = bayes_f)
 
 
 # For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
-bayes_vec <- c(bayes_f[1:9], NA)
-waic <- c(waic[1:9], NA)
+bayes_vec <- c(bayes_f, NA)
+waic <- c(waic, NA)
 model_names <-  c("Base", "Scen15", "Scen15b", "Scen16", "Scen16b", "Scen17", "Scen17b", "Scen18", "Scen18b", "MA")
+model_names <-  c("Base", "Scen15", "Scen16", "Scen17", "Scen18", "MA")
+
 table2 <- data.frame(Model = model_names, BayesFactor = round(bayes_vec,4), WAIC = round(waic, 4))
 write.csv(table2, file = paste0(paste0("Model runs/",file_names[10],"_bayes_factors_and_waic.csv")))
 
@@ -118,16 +123,16 @@ compare_posteriors(
   reference_sir = TRUE, 
   SIR = list(sir_base[[1]],
              sir_depensation1[[1]],
-             sir_depensation2[[1]],
-             sir_depensation3[[1]],
-             sir_depensation4[[1]],
              sir_depensation5[[1]],
+             sir_depensation2[[1]],
              sir_depensation6[[1]],
+             sir_depensation3[[1]],
              sir_depensation7[[1]],
+             sir_depensation4[[1]],
              sir_depensation8[[1]],
              model_average), 
   model_names = model_names, 
-  bayes_factor = round(bayes_vec,2),
+  bayes_factor = round(c(bayes_vec[1], bayes_vec[2], NA, bayes_vec[3], NA, bayes_vec[4], NA, bayes_vec[5], NA, NA),2),
   file_name = paste0("Model runs/",file_names[10]),
   years = c(2021, 2030))
 
@@ -135,13 +140,16 @@ compare_posteriors(
 # Plot IOA medians
 plot_ioa_medians(SIR = list(sir_base[[1]],
                             sir_depensation1[[1]],
+                            sir_depensation5[[1]],
                             sir_depensation2[[1]],
+                            sir_depensation6[[1]],
                             sir_depensation3[[1]],
+                            sir_depensation7[[1]],
                             sir_depensation4[[1]],
-                            model_average
-),
-model_names = c("Base", "Hilborn", "Logistic", "Lin & Li", "Haider", "Model average"),
-file_name = paste0("Model runs/",file_names[10]))
+                            sir_depensation8[[1]],
+                            model_average),
+                 model_names = model_names,
+                 file_name = paste0("Model runs/",file_names[10]))
 
 
 # Plot and get parameter values from Model Average

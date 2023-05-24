@@ -147,7 +147,7 @@ plot_ioa_medians <- function(SIR, file_name = NULL, ioa_names = NULL, line_col =
       }
       
       if(!is.null(model_names) & i == 1 ){
-        legend("topleft", legend = model_names, lwd = 3, col = line_col, bty = "n")
+        legend(x = 2001, y = 3400, legend = model_names, lwd = 3, col = line_col, bty = "n", cex = .7)
       }
       
       if(!is.null(ioa_names)){
