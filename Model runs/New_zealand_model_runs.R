@@ -1,5 +1,6 @@
 library(StateSpaceSIR)
 library(EnvStats)
+library(dplyr)
 
 
 
@@ -7,68 +8,90 @@ library(EnvStats)
 # Read in data
 ################################################################################
 # -- Catch
-sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv", sep=";",header=FALSE)   
-names(sw_right_data)<- c("Year","CatchMin","CatchMax","Nt")
+nz_right_data<-read.csv("Data/Jackson 2016/Catch_inputs.csv")   # "Year","CatchMin","CatchMax","Nt"
+catch.names=c("Year","CoastNZlow","CoastNZhigh","CoastEA","AmericanBaylow","AmericanBayhigh","AmericanoffNZ","AmericanoffNZSE","AmericanoffEA","AmericanoffEASE","French","SovietEA","SovietNZ")
+colnames(nz_right_data)<-catch.names
 
-# Four periods of SLRs
-# - Period 1: 1648-1770: SLR = 1
-# - Period 2: 1771-1850: SLR ~ N(1.6, 0.04)
-# - Period 3: 1851-1973: SLR ~ N(1.09, 0.04)
-# - Period 4: 1974-Present: SLR = 1
-catch_list <- list(sw_right_data[which(sw_right_data$Year < 1771),1:3],
-                   sw_right_data[which(sw_right_data$Year >= 1771 & sw_right_data$Year <= 1850),1:3],
-                   sw_right_data[which(sw_right_data$Year >= 1851 & sw_right_data$Year <= 1973),1:3],
-                   sw_right_data[which(sw_right_data$Year > 1973),1:3])
+AmericanBaymean=(nz_right_data$AmericanBaylow+nz_right_data$AmericanBayhigh)/2 # average of low & high American bay whaling catches, used to convert French total catches into 'bay' and 'offshore' components
+
+France.offEA=(French.catch*offshore.AmericanEA3)/(AmericanBaymean+offshore.AmericanEA3+offshore.AmericanNZ3) # this breaks down the French catch series into component types of whaling, based on relative proportion estimated for the American campaign
+France.offNZ=(French.catch-France.offEA)*(offshore.AmericanNZ3/(offshore.AmericanNZ3+AmericanBaymean)) # this derives the French catch off NZ and breaks down into relative bay and offshore components, as above.	
+France.bayNZ=(French.catch-France.offEA)*(AmericanBaymean/(offshore.AmericanNZ3+AmericanBaymean))
+# French catch is already smeared
+
+# American offshore needs to be drawn from normal dist given SE and then smeared
+
+# --- Low 
+nzlow_catch_list <- list(
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$CoastNZlow + nz_right_data$AmericanBaylow, CatchMax = CatchMin), # Coastal NZ
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$Soviet.NZ, CatchMax = nz_right_data$Soviet.NZ) # Soviet catches (no SLR)
+)
+
+
+swpaclow_catch_list <- list(
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$CoastNZlow + nz_right_data$AmericanBaylow + nz_right_data$CoastEA, CatchMax = CatchMin), # Coastal SW Pacific
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$Soviet.NZ + nz_right_data$SovietEA, CatchMax = CatchMin) # Soviet catches SW Pacific (no SLR)
+)
+
+
+# --- High
+nz_high_catch_list <- list(
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$CoastNZhigh + nz_right_data$AmericanBayhigh, CatchMax = CatchMin), # Coastal NZ
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$Soviet.NZ, CatchMax = nz_right_data$Soviet.NZ) # Soviet catches (no SLR)
+)
+
+
+swpac_high_catch_list <- list(
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$CoastNZhigh + nz_right_data$AmericanBayhigh + nz_right_data$CoastEA, CatchMax = CatchMin), # Coastal SW Pacific
+  data.frame(Year = nz_right_data$Year, CatchMin = nz_right_data$Soviet.NZ + nz_right_data$SovietEA, CatchMax = CatchMin) # Soviet catches SW Pacific (no SLR)
+)
 
 # -- Absolute abundance
-Abs.Abundance.2009 <- data.frame(Year = 2009, N.obs = 4029, CV.obs = NA) # FIXME: not used as of 4/24/21
-Abs.Abundance.2010 <- data.frame(Year = 2010, N.obs = 4245, CV.obs = 245/4245) # 2010: 4245 (SE: 245, 95% CI 3,765, 4,725).
+Abs.Abundance.2009 <- data.frame(Year = 2009, N.obs = 2148, CV.obs = 0.2) 
 
 # -- Relative abundance
-sw_right_rel_abundance<-read.csv("Data/Accumulated_n_whales_1999_to_2019.csv") 
-
-Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_rel_abundance)), 
-                                    Year = sw_right_rel_abundance$Year, 
-                                    IA.obs = sw_right_rel_abundance$A_xy_mu_sim) #Using 0.2 as a proxy
-Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, sw_right_rel_abundance[,paste0("X",1:17)])
+Rel.Abundance.NZRight <- data.frame(Index = rep(1, 4), 
+                                    Year = c(1995, 1998, 2006, 2009), 
+                                    IA.obs = c(533, 619, 910, 1074)) 
+Rel.Abundance.NZRight <- cbind(Rel.Abundance.NZRight, diag(0.2,4))
 
 for(i in 1:15){
-  dir.create(paste0("Model runs/Sensitivity_",i))
+  dir.create(paste0("NZ model runs/Sensitivity_",i))
 }
 
 ################################################################################
 # Base model
 ################################################################################
-file_name <- "Model runs/Base/Base"
+file_name <- "NZ model runs/Base/Base"
 
 sir_base <- list()
 for(i in 1:2){
   sir_base[[i]] <-  StateSpaceSIR(
     file_name = NULL,
-    n_resamples = 20000,
-    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.11),
-                             N_obs = make_prior(runif, 100, 10000),
-                             var_N = make_prior(runif, 6.506055e-05, 6.506055e-05 * 10),
+    n_resamples = 1000,
+    priors = make_prior_list(r_max =  make_prior(runif, 0, 0.12),
+                             N_obs = make_prior(runif, 100, 20000),
+                             var_N = make_prior(0),
                              z = make_prior(use = FALSE),
-                             Pmsy = make_prior(runif, 0.5, 0.8)),
+                             Pmsy = make_prior(0.6)),
     catch_multipliers = make_multiplier_list(
-      make_prior(1),
-      make_prior(rnorm, 1.60 , 0.04), 
-      make_prior(rnorm, 1.09, 0.04),
-      make_prior(1)),
-    target.Yr = 2019,
-    num.haplotypes = 24,
+      make_prior(rnorm, 1.27, 0.05), 
+      make_prior(rnorm, 1.45, 0.054),
+      make_prior(1)
+      ),
+    target.Yr = 2009,
+    num.haplotypes = 12,
     output.Yrs = c(2021, 2030),
-    abs.abundance = Abs.Abundance.2010,
+    abs.abundance = Abs.Abundance.2009,
     abs.abundance.key = TRUE,
-    rel.abundance = Rel.Abundance.SWRight,
+    rel.abundance = Rel.Abundance.NZRight,
     rel.abundance.key = TRUE, # Indices of abundance
     count.data = Count.Data, # Not used
     count.data.key = FALSE, # Don't use count data
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-3, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_base[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
