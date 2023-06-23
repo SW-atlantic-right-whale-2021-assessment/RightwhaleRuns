@@ -80,7 +80,7 @@ load(file = paste0(file_name, ".Rdata"))
 plot_trajectory(sir_base[[1]],  file_name = file_name)
 plot_trajectory(sir_base[[2]],  file_name = paste0(file_name, "prior"))
 plot_density(SIR = list(sir_base[[1]]),  file_name = file_name,   priors = list(sir_base[[2]]), inc_reference = FALSE)
-plot_ioa(sir_base[[1]],  file_name = file_name, ioa_names = NULL )
+# plot_ioa(sir_base[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sir_base[[1]],  file_name = file_name)
 
 
