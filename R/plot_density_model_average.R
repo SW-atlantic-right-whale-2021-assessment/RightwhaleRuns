@@ -16,7 +16,7 @@
 #'
 #' @return Returns and saves a figure with the posterior densities of parameters.
 #' @export
-plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_lty = rep(1, length(SIR)), posteriors_col = rep(1, length(SIR)),  file_name = NULL, lower = NULL, upper = NULL, probs = c(0.025, 0.975) ){
+plot_density_ma <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_lty = rep(1, length(SIR)), posteriors_col = rep(1, length(SIR)),  file_name = NULL, lower = NULL, upper = NULL, probs = c(0.025, 0.975) ){
   
   # Make into list
   if(class(SIR) == "SIR"){

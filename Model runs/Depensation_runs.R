@@ -40,14 +40,15 @@ colnames(var_covar) <- 1:17
 Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, var_covar)
 
 # - Index 2: Cooke et al 2001 mark-recapture females
-cooke_ioa <-read.csv("Data/Cooke_et_al_2001.csv") 
-Rel.Abundance.SWRight.Cooke <- data.frame(Index = rep(2, nrow(cooke_ioa)), 
-                                          Year = cooke_ioa$Year, 
-                                          IA.obs = cooke_ioa$Population)
-Rel.Abundance.SWRight.Cooke = cbind(Rel.Abundance.SWRight.Cooke, diag(sqrt(log(cooke_ioa$PopSE/cooke_ioa$Population^2 + 1)))) #CV to lognmoral sigma
-
-# - Combine
-Rel.Abundance.SWRight <- rbind.fill(Rel.Abundance.SWRight, Rel.Abundance.SWRight.Cooke)
+# - Not used 10/05/2023
+# cooke_ioa <-read.csv("Data/Cooke_et_al_2001.csv") 
+# Rel.Abundance.SWRight.Cooke <- data.frame(Index = rep(2, nrow(cooke_ioa)), 
+#                                           Year = cooke_ioa$Year, 
+#                                           IA.obs = cooke_ioa$Population)
+# Rel.Abundance.SWRight.Cooke = cbind(Rel.Abundance.SWRight.Cooke, diag(sqrt(log(cooke_ioa$PopSE/cooke_ioa$Population^2 + 1)))) #CV to lognmoral sigma
+# 
+# # - Combine
+# Rel.Abundance.SWRight <- rbind.fill(Rel.Abundance.SWRight, Rel.Abundance.SWRight.Cooke)
 
 # -- Set up directories
 for(i in 1:8){
@@ -87,7 +88,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_base2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -138,7 +139,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation1[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -189,7 +190,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -240,7 +241,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation3[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -291,7 +292,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation4[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -344,7 +345,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation5[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -395,7 +396,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation6[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -446,7 +447,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation7[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -497,7 +498,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.07, progress_bar = TRUE),
+    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation8[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
