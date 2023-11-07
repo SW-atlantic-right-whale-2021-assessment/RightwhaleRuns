@@ -3,6 +3,7 @@ library(StateSpaceSIR)
 source("R/plot_ioa_medians.R")
 source("R/plot_surplus_prod_function.R")
 source("R/plot_density_model_average.R")
+source("R/plot_density_depensation.R")
 
 # Load all the models
 file_names <- c("Base2/Base2",
@@ -63,8 +64,8 @@ for(i in 1:length(sir_list)){
 }
 
 for(i in 2:length(sir_list)){
-  # sir_list_tmp <- list(sir_list[[i]][[1]], sir_base2[[1]], sir_list[[i]][[1]])
-  # plot_density(SIR = sir_list_tmp,  file_name = paste0("Model runs/",file_names[i]),   priors = list(sir_list[[i]][[2]]), inc_reference = TRUE, target = ifelse(i == 7, FALSE, TRUE))
+  sir_list_tmp <- list(sir_list[[i]][[1]], sir_base2[[1]], sir_list[[i]][[1]])
+  plot_density_depensation(SIR = sir_list_tmp,  file_name = paste0("Model runs/",file_names[i]),   priors = list(sir_list[[i]][[2]]), inc_reference = TRUE, target = ifelse(i == 7, FALSE, TRUE))
   plot_trajectory( SIR = sir_list[[i]][[1]], Reference = sir_list[[1]][[1]],  file_name = paste0("Model runs/",file_names[i]))
 }
 
