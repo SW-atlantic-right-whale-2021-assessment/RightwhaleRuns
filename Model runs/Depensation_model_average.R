@@ -32,7 +32,7 @@ plot_suplus_prod(SIRlist = list(sir_base2[[1]],
                                 sir_depensation2[[1]],
                                 sir_depensation6[[1]]),
                  coolors = c("#FB8B24", "#D90368", "#820263", "#291720", "#04A777"),
-                 model_names = c("Base", "Scen15", "Scen15b", "Scen16", "Scen16b"),
+                 model_names = c("Base", "Dep-1", "Dep-1b", "Dep-2", "Dep-2b"),
                  file_name = "Model runs/Model_average_2/Model_average_2_set1")
 
 
@@ -43,7 +43,7 @@ plot_suplus_prod(SIRlist = list(sir_base2[[1]],
                                 sir_depensation4[[1]],
                                 sir_depensation8[[1]]),
                  coolors = c("#FB8B24", "#D90368", "#820263", "#291720", "#04A777"),
-                 model_names = c("Base", "Scen17", "Scen17b", "Scen18", "Scen18b"),
+                 model_names = c("Base", "Dep-3", "Dep-3b", "Dep-4", "Dep-4b"),
                  file_name = "Model runs/Model_average_2/Model_average_2_set2")
 
 
