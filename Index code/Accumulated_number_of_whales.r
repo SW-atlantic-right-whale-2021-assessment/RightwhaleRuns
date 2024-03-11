@@ -9,15 +9,16 @@ library(matrixStats)
 ################################################################################
 # Read in and clean data
 ################################################################################
-balle<- read.csv ( "Data/SRW_aerial_survey_1999-2019.csv" , sep=";" , dec=".")
+balle<- read.csv ( "Data/SRW_aerial_survey_1999-2023.csv" , sep=";" , dec=".")
 
 
 balle<- balle [c(-11,-12),] #11 y 12 (2004) vuelos con el aerocomander// esta es la seleccion de datos que hice para la los paràmetros para el nùmero de ballenas que dan la vuelta anualmente por PV
-balle <- subset (balle, Year<2020) # Subset years
+balle <- subset (balle, Year<2024) # Subset years
 
 ####Variable Respuesta ############
 balle$RTA <- (balle$T) # Total of observed whales
 balle$Year <- as.factor(balle$Year)
+nyrs <- length(unique(balle$Year))
 
 
 ################################################################################
@@ -36,15 +37,15 @@ vcov.nb.Jul.cuad # NOTE: dispersion parameter is not included
 # Second Stage - accumulated number of whales
 ################################################################################
 # -- Run for years of interest and using nb regression model
-A_xy <- data.frame(Year = sort(unique(balle$Year)), B = c(0, nb.Jul.cuad[2:17])) # Years which we want to calculate the accumulated number of whales from years which we have data and the associated regression parameters. NOTE: 1990 is the intercept 
+A_xy <- data.frame(Year = sort(unique(balle$Year)), B = c(0, nb.Jul.cuad[2:nyrs])) # Years which we want to calculate the accumulated number of whales from years which we have data and the associated regression parameters. NOTE: 1990 is the intercept 
 
 # Get A_xy using MASS and R
 A_xy$A_xy <- NA
 for(i in 1:nrow(A_xy)){
   A_xy$A_xy[i] <- accum_fun(a = nb.Jul.cuad[1], # Intercept
                             b = A_xy$B[i], # Year parameter
-                            c = nb.Jul.cuad[18], # Julian day parameter
-                            d = nb.Jul.cuad[19], # Julian day^2 parameter
+                            c = nb.Jul.cuad[nyrs+1], # Julian day parameter
+                            d = nb.Jul.cuad[nyrs+2], # Julian day^2 parameter
                             mu = 60, # mu from manuscript
                             sigma = 8.66, # sigma from manuscript
                             x = 320,
@@ -65,9 +66,9 @@ A_xy_mat <- matrix(NA, nrow = nrow(A_xy), ncol = ndraw) # Matrix to save A_xy es
 for(draw in 1:ndraw){ # Loop through draws
   for(i in 1:nrow(A_xy)){ # Loop through years
     A_xy_mat[i,draw] <- accum_fun(a = Param_draws[draw, 1], # Intercept
-                              b = c(0,Param_draws[draw, 2:17])[i], # Year parameter (1999 is 0 because intercept)
-                              c = Param_draws[draw,18], # Julian day parameter
-                              d = Param_draws[draw,19], # Julian day^2 parameter
+                              b = c(0,Param_draws[draw, 2:nyrs])[i], # Year parameter (1999 is 0 because intercept)
+                              c = Param_draws[draw,nyrs+1], # Julian day parameter
+                              d = Param_draws[draw,nyrs+2], # Julian day^2 parameter
                               mu = 60, # mu from manuscript
                               sigma = 8.66, # sigma from manuscript
                               x = 320,
@@ -92,4 +93,4 @@ for(i in 1:nrow(A_xy_vcov)){
 A_xy_vcov
 A_xy <- cbind(A_xy, A_xy_vcov)
 
-write.csv(A_xy, file = "Data/Accumulated_n_whales_1999_to_2019.csv")
+write.csv(A_xy, file = "Data/Accumulated_n_whales_1999_to_2023.csv")
