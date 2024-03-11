@@ -10,6 +10,7 @@ library(plyr)
 # -- Catch
 sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv", sep=";",header=FALSE)   
 names(sw_right_data)<- c("Year","CatchMin","CatchMax","Nt")
+sw_right_data <- rbind(sw_right_data, data.frame(Year = 2022:2023, CatchMin = 0, CatchMax = 0, Nt=0))
 
 
 # Four periods of SLRs
@@ -30,13 +31,13 @@ Abs.Abundance.2010 <- data.frame(Year = 2010, N.obs = 4245, CV.obs = 245/4245) #
 
 # -- Relative abundance
 # - Index 1: Accumulated number of whales
-sw_right_rel_abundance<-read.csv("Data/Accumulated_n_whales_1999_to_2019.csv") 
+sw_right_rel_abundance<-read.csv("Data/Accumulated_n_whales_1999_to_2023.csv") 
 
 Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_rel_abundance)), 
                                     Year = sw_right_rel_abundance$Year, 
                                     IA.obs = sw_right_rel_abundance$A_xy_mu_sim)
-var_covar <- sw_right_rel_abundance[,paste0("X",1:17)]
-colnames(var_covar) <- 1:17
+var_covar <- sw_right_rel_abundance[,paste0("X",1:20)]
+colnames(var_covar) <- 1:20
 Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, var_covar)
 
 # - Index 2: Cooke et al 2001 mark-recapture females

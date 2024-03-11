@@ -1,5 +1,6 @@
 library(StateSpaceSIR)
 library(EnvStats)
+library(plyr)
 
 
 
@@ -9,6 +10,8 @@ library(EnvStats)
 # -- Catch
 sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv", sep=";",header=FALSE)   
 names(sw_right_data)<- c("Year","CatchMin","CatchMax","Nt")
+sw_right_data <- rbind(sw_right_data, data.frame(Year = 2022:2023, CatchMin = 0, CatchMax = 0, Nt=0))
+
 
 # Four periods of SLRs
 # - Period 1: 1648-1770: SLR = 1
@@ -20,17 +23,22 @@ catch_list <- list(sw_right_data[which(sw_right_data$Year < 1771),1:3],
                    sw_right_data[which(sw_right_data$Year >= 1851 & sw_right_data$Year <= 1973),1:3],
                    sw_right_data[which(sw_right_data$Year > 1973),1:3])
 
+
 # -- Absolute abundance
 Abs.Abundance.2009 <- data.frame(Year = 2009, N.obs = 4029, CV.obs = NA) # FIXME: not used as of 4/24/21
 Abs.Abundance.2010 <- data.frame(Year = 2010, N.obs = 4245, CV.obs = 245/4245) # 2010: 4245 (SE: 245, 95% CI 3,765, 4,725).
 
+
 # -- Relative abundance
-sw_right_rel_abundance<-read.csv("Data/Accumulated_n_whales_1999_to_2019.csv") 
+# - Index 1: Accumulated number of whales
+sw_right_rel_abundance<-read.csv("Data/Accumulated_n_whales_1999_to_2023.csv") 
 
 Rel.Abundance.SWRight <- data.frame(Index = rep(1, nrow(sw_right_rel_abundance)), 
                                     Year = sw_right_rel_abundance$Year, 
-                                    IA.obs = sw_right_rel_abundance$A_xy_mu_sim) #Using 0.2 as a proxy
-Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, sw_right_rel_abundance[,paste0("X",1:17)])
+                                    IA.obs = sw_right_rel_abundance$A_xy_mu_sim)
+var_covar <- sw_right_rel_abundance[,paste0("X",1:20)]
+colnames(var_covar) <- 1:20
+Rel.Abundance.SWRight = cbind(Rel.Abundance.SWRight, var_covar)
 
 for(i in 1:15){
   dir.create(paste0("Model runs/Sensitivity_",i))
