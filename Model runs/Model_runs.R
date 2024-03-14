@@ -5,7 +5,7 @@ library(plyr)
 
 
 ################################################################################
-# Read in data
+# Read in data ----
 ################################################################################
 # -- Catch
 sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv", sep=";",header=FALSE)   
@@ -45,7 +45,7 @@ for(i in 1:15){
 }
 
 ################################################################################
-# Base model
+# Base model ----
 ################################################################################
 file_name <- "Model runs/Base/Base"
 
@@ -66,7 +66,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -93,7 +93,7 @@ summary_table(sir_base[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity 1 - lognormal prior on Rmax 
+# Sensitivity 1 - lognormal prior on Rmax ----
 ################################################################################
 file_name <- "Model runs/Sensitivity_1/Sensitivity_1"
 
@@ -114,7 +114,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -141,7 +141,7 @@ summary_table(sensitivity_1[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity 2 - smaller CV on lognromal prior on Rmax 
+# Sensitivity 2 - smaller CV on lognromal prior on Rmax  ----
 ################################################################################
 file_name <- "Model runs/Sensitivity_2/Sensitivity_2"
 
@@ -162,7 +162,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -172,7 +172,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 1e-6, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-5, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -188,7 +188,7 @@ plot_ioa(sensitivity_2[[1]],  file_name = file_name, ioa_names = NULL )
 summary_table(sensitivity_2[[1]],  file_name = file_name)
 
 ################################################################################
-# sensitivity_3
+# Sensitivity 3 ----
 ################################################################################
 # - Prior on rmax of lognormal(-2.65, 0.5)T(0.2, 0.11)
 # - Using rlnormTrunc fron "EnvStats" package
@@ -212,7 +212,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -240,7 +240,7 @@ summary_table(sensitivity_3[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity_4
+# Sensitivity 4 ----
 ################################################################################
 file_name <- "Model runs/Sensitivity_4/Sensitivity_4"
 # Upper bound of process error is 100 * lower bound
@@ -262,7 +262,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -272,7 +272,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 0.5*1e-4, progress_bar = TRUE),
+    control = sir_control(threshold = 0.5e-3, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sensitivity_4[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -290,7 +290,7 @@ summary_table(sensitivity_4[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity_5
+# Sensitivity 5 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_5/sensitivity_5"
 # Upper bound of process error variance is 5 times lower bound
@@ -312,7 +312,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -339,7 +339,7 @@ summary_table(sensitivity_5[[1]],  file_name = file_name)
 
 
 ################################################################################
-# sensitivity_6
+# Sensitivity 6 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_6/sensitivity_6"
 # Nrecent is 2004
@@ -361,7 +361,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2004,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -388,7 +388,7 @@ summary_table(sensitivity_6[[1]],  file_name = file_name)
 
 
 ################################################################################
-# sensitivity_7
+# Sensitivity 7 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_7/sensitivity_7"
 # No struck and loss rates
@@ -410,7 +410,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -438,7 +438,7 @@ summary_table(sensitivity_7[[1]],  file_name = file_name)
 
 
 ################################################################################
-# sensitivity_8
+# Sensitivity 8 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_8/sensitivity_8"
 # - Catch time series is only low
@@ -462,7 +462,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -490,7 +490,7 @@ summary_table(sensitivity_8[[1]],  file_name = file_name)
 
 
 ################################################################################
-# sensitivity_9
+# Sensitivity 9 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_9/sensitivity_9"
 # -- Catch time series is high
@@ -514,7 +514,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -541,7 +541,7 @@ summary_table(sensitivity_9[[1]],  file_name = file_name)
 
 
 ################################################################################
-# sensitivity_10 min haplotypes = 0
+# Sensitivity 10 min haplotypes = 0 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_10/sensitivity_10"
 
@@ -562,7 +562,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 0,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -590,7 +590,7 @@ summary_table(sensitivity_10[[1]],  file_name = file_name)
 
 
 ################################################################################
-# sensitivity_11 min haplotypes = 25
+# Sensitivity 11 min haplotypes = 25 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_11/sensitivity_11"
 
@@ -611,7 +611,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 25,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -639,7 +639,7 @@ summary_table(sensitivity_11[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity_12 min haplotypes = 37
+# Sensitivity12 min haplotypes = 37 ----
 ################################################################################
 file_name <- "Model runs/sensitivity_12/sensitivity_12"
 
@@ -660,7 +660,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 37,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -689,7 +689,7 @@ summary_table(sensitivity_12[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity_13 additional cv
+# Sensitivity 13 additional cv ----
 ################################################################################
 file_name <- "Model runs/sensitivity_13/sensitivity_13"
 
@@ -711,7 +711,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 37,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -740,7 +740,7 @@ summary_table(sensitivity_13[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity 14 - power equation q analytical
+# Sensitivity 14 - power equation q analytical ----
 ################################################################################
 file_name <- "Model runs/sensitivity_14/sensitivity_14"
 
@@ -763,7 +763,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -790,7 +790,7 @@ summary_table(sensitivity_14[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Sensitivity 15 - power equation explicit q prior
+# Sensitivity 15 - power equation explicit q prior ----
 ################################################################################
 file_name <- "Model runs/sensitivity_15/sensitivity_15"
 
@@ -813,7 +813,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,

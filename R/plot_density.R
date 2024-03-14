@@ -16,7 +16,7 @@
 #'
 #' @return Returns and saves a figure with the posterior densities of parameters.
 #' @export
-plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_lty = rep(1, length(SIR)), posteriors_col = rep(1, length(SIR)),  file_name = NULL, lower = NULL, upper = NULL, probs = c(0.025, 0.975) ){
+plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_lty = rep(1, length(SIR)), posteriors_col = rep(1, length(SIR)),  file_name = NULL, lower = NULL, upper = NULL, probs = c(0.025, 0.975), target = TRUE){
   
   # Make into list
   if(class(SIR) == "SIR"){
@@ -25,9 +25,16 @@ plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_l
   
   # Vars of interest
   num.IA <- sort(unique(c( sapply(SIR, function(x) x$inputs$rel.abundance$Index))))
-  years <- sort(unique(c( 
-    sapply(SIR, function(x) x$inputs$target.Yr),
-    sapply(SIR, function(x) x$inputs$output.Years))))
+  if(target){
+    years <- sort(unique(unlist(c( 
+      sapply(SIR, function(x) x$inputs$target.Yr),
+      sapply(SIR, function(x) x$inputs$output.Years)))))
+  }
+  if(!target){
+    years <- sort(unique(unlist(c( 
+      #sapply(SIR, function(x) x$inputs$target.Yr),
+      sapply(SIR, function(x) x$inputs$output.Years)))))
+  }
   vars <- c("r_max", "K", "Pmsy", "var_N", "Nmin", paste0("N", years), "Max_Dep", paste0("status", years))#, paste0("q_IA1", num.IA), paste0("q_IA2", num.IA), "add_VAR_IA", paste0("catch_multiplier_",2:3), "catch_parameter")
   vars_latex <- c("$r_{max}$", "$K$", "$P_{MSY}$", "$sigma$", "$N_{min}$", paste0("$N_{", years, "}$"), "$P_{min}$", paste0("$P_{", years,"}$"))#, paste0("$q_{flt", num.IA, "}$"), paste0("$\beta_{q_{flt", num.IA,"}}$"), "$tau_q$", paste0("$SLR_",1:2,"$"), "$pi$")
   
@@ -53,29 +60,29 @@ plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_l
   
   for(k in 1:length(SIR)){
     q_posteriors[[k]] <- list()
-
+    
     # -- Determining the number of Indices of Abundance available
     rel.abundance <- SIR[[k]]$inputs$rel.abundance
     indices <- unique(rel.abundance$Index)
     IA.yrs <- rel.abundance$Year
     N_hat <- SIR[[k]]$resamples_trajectories[, paste0("N_", IA.yrs)] # Estimates of N within IOA years
-
+    
     # -- Q2 for exponent
     q1_cols <- grep("q_IA1", colnames(SIR[[k]]$resamples_output)) # Columns of resample Q estimates
     q1_est <- SIR[[k]]$resamples_output[, q1_cols]
     q1_est <- as.matrix(q1_est, ncol = length(q1_cols))
-
+    
     q2_cols <- grep("q_IA2", colnames(SIR[[k]]$resamples_output)) # Columns of resample Q estimates
     q2_est <- SIR[[k]]$resamples_output[, q2_cols]
     q2_est <- as.matrix(q2_est, ncol = length(q2_cols))
-
+    
     # -- Make var-covar into wide and tall with cov = 0 for different indices
     rel.var.covar.tall <-  subset(rel.abundance, select = -c(Index,Year,IA.obs,IndYear))
     rel.var.covar.wide <- rel.var.covar.tall[which(rel.abundance$Index == 1),]
     rel.var.covar.wide <- rel.var.covar.wide[1:nrow(rel.var.covar.wide),1:nrow(rel.var.covar.wide)]
-
+    
     rel.hess.wide <- solve(rel.var.covar.wide[1:nrow(rel.var.covar.wide), 1: nrow(rel.var.covar.wide)])
-
+    
     if(num.IA>1){
       for(i in 2:length(unique(rel.abundance$Index))){
         var.cov.tmp <- as.matrix(rel.var.covar.tall[which(rel.abundance$Index == i),])
@@ -87,7 +94,7 @@ plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_l
       }
     }
     rel.var.covar.wide <- as.matrix(rel.var.covar.wide)
-
+    
     # -- Loop through posterior draws
     for(j in 1:nrow(SIR[[k]]$resamples_trajectories)){
       # -- Sample q
@@ -95,9 +102,9 @@ plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_l
         n = 5,
         mu = as.numeric(log(rel.abundance$IA.obs/N_hat[j,] ^ (q2_est[j,rel.abundance$Index] + 1)) - diag(rel.var.covar.wide)/2),
         Sigma = rel.var.covar.wide))
-
+      
       # q_est <- exp(sum(rel.hess.wide %*% as.numeric(log(rel.abundance$IA.obs/N_hat[j,] ^ (q2_est[j,rel.abundance$Index] + 1))))/(sum(rel.hess.wide))) # q_i
-
+      
       # -- Assign to list
       for(i in indices){
         if(j == 1){
@@ -108,7 +115,7 @@ plot_density <- function(SIR, posteriors_lwd = rep(3, length(SIR)), posteriors_l
       }
     }
   }
-
+  
   
   # Plot
   for(j in 1:(1 + as.numeric(!is.null(file_name)) * 2)){

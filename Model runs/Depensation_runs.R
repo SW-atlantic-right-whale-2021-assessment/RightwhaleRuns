@@ -2,10 +2,8 @@ library(StateSpaceSIR)
 library(EnvStats)
 library(plyr)
 
-
-
 ################################################################################
-# Read in data
+# Read in data ----
 ################################################################################
 # -- Catch
 sw_right_data<-read.delim("Data/datosModeloBallenasmiles2020Miles1648to2019.csv", sep=";",header=FALSE)   
@@ -57,7 +55,7 @@ for(i in 1:8){
 }
 
 ################################################################################
-# Base model
+# Base model ----
 ################################################################################
 file_name <- "Model runs/Base2/Base2"
 
@@ -79,7 +77,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -89,7 +87,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_base2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -107,7 +105,7 @@ summary_table(sir_base2[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 1 - Hilborn et al 2014
+# Depensation model 1 - Hilborn et al 2014 ----
 ################################################################################
 file_name <- "Model runs/Depensation_1/Depensation_1"
 
@@ -130,7 +128,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -140,7 +138,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation1[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -158,7 +156,7 @@ summary_table(sir_depensation1[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 2 - Logistic
+# Depensation model 2 - Logistic ----
 ################################################################################
 file_name <- "Model runs/Depensation_2/Depensation_2"
 
@@ -181,7 +179,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -191,7 +189,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation2[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -209,7 +207,7 @@ summary_table(sir_depensation2[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 3 - Lin & Li 2002
+# Depensation model 3 - Lin & Li 2002 ----
 ################################################################################
 file_name <- "Model runs/Depensation_3/Depensation_3"
 
@@ -232,7 +230,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -242,7 +240,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation3[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -260,7 +258,7 @@ summary_table(sir_depensation3[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 4 - Haider et al 2017
+# Depensation model 4 - Haider et al 2017 ----
 ################################################################################
 file_name <- "Model runs/Depensation_4/Depensation_4"
 
@@ -283,7 +281,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -293,7 +291,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation4[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -310,10 +308,8 @@ summary_table(sir_depensation4[[1]],  file_name = file_name)
 
 
 
-
-
 ################################################################################
-# Depensation model 5 - Hilborn et al 2014 w beta prior
+# Depensation model 5 - Hilborn et al 2014 w beta prior ----
 ################################################################################
 file_name <- "Model runs/Depensation_5/Depensation_5"
 
@@ -336,7 +332,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -346,7 +342,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation5[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -364,7 +360,7 @@ summary_table(sir_depensation5[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 6 - Logistic w/ beta prior
+# Depensation model 6 - Logistic w/ beta prior ----
 ################################################################################
 file_name <- "Model runs/Depensation_6/Depensation_6"
 
@@ -387,7 +383,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -397,7 +393,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation6[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -415,7 +411,7 @@ summary_table(sir_depensation6[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 7 - Lin & Li 2002 w/ beta prior
+# Depensation model 7 - Lin & Li 2002 w/ beta prior ----
 ################################################################################
 file_name <- "Model runs/Depensation_7/Depensation_7"
 
@@ -438,7 +434,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -448,7 +444,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation7[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)
@@ -466,7 +462,7 @@ summary_table(sir_depensation7[[1]],  file_name = file_name)
 
 
 ################################################################################
-# Depensation model 8 - Haider et al 2017 w/ beta prior
+# Depensation model 8 - Haider et al 2017 w/ beta prior ----
 ################################################################################
 file_name <- "Model runs/Depensation_8/Depensation_8"
 
@@ -489,7 +485,7 @@ for(i in 1:2){
       make_prior(1)),
     target.Yr = 2019,
     num.haplotypes = 24,
-    output.Yrs = c(2021, 2030),
+    output.Yrs = c(2021, 2023, 2030),
     abs.abundance = Abs.Abundance.2010,
     abs.abundance.key = TRUE,
     rel.abundance = Rel.Abundance.SWRight,
@@ -499,7 +495,7 @@ for(i in 1:2){
     growth.rate.obs = c(0.074, 0.033, FALSE), # Do not include growth rate
     growth.rate.Yrs = c(1995, 1996, 1997, 1998), # Not used
     catch.data = catch_list,
-    control = sir_control(threshold = 5e-05, progress_bar = TRUE),
+    control = sir_control(threshold = 1e-05, progress_bar = TRUE),
     realized_prior = ifelse(i == 1, FALSE, TRUE))
 }
 resample_summary_reference <- summary_sir(sir_depensation8[[1]]$resamples_output, object = "Resample_Summary", file_name = file_name)

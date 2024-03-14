@@ -88,6 +88,7 @@ model_average <- weight_model(SIR = list(sir_base[[1]],
                                    sensitivity_13[[1]],
                                    sensitivity_14[[1]]), 
                         bayes_factor = bayes_f)
+model_average$inputs$output.Years <- c(1999, 2021, 2023, 2030)
 
 # For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
 bayes_vec <- c(bayes_f[1:4], NA,NA, bayes_f[5:6],  NA, NA, bayes_f[7:11], NA)
@@ -126,7 +127,9 @@ plot_trajectory(model_average, Reference = sir_base[[1]],  file_name = file_name
 plot_abs_abundance(model_average,  file_name = file_name)
 sir_list_ma <- list(model_average, sir_base[[2]], sir_base[[1]], model_average)
 
-plot_density(SIR = sir_list_ma, posteriors_lwd = c(3, 1,3,3), posteriors_lty = c(1,1,1,1), posteriors_col = c(1, "grey45", "grey45", 1) ,  file_name = file_name)
+
+source("R/plot_density_model_average.R", echo=TRUE)
+plot_density_ma(SIR = sir_list_ma, posteriors_lwd = c(3, 1,3,3), posteriors_lty = c(1,1,1,1), posteriors_col = c(1, "grey45", "grey45", 1) ,  file_name = file_name)
 plot_ioa(model_average,  file_name = file_name, ioa_names = NULL)
 summary_table(model_average,  file_name = file_name)
 save(model_average, file = paste0(file_name, ".Rdata"))
