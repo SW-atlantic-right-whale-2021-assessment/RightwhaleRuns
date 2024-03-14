@@ -141,8 +141,8 @@ sw_right_rel_abundance_2019 <- read.csv("Data/Accumulated_n_whales_1999_to_2019.
 
 # - Against one another
 plot(x = sw_right_rel_abundance_2019$A_xy_mu_sim, y = sw_right_rel_abundance_2023$A_xy_mu_sim[1:17],
-     xlab = "1999-2019 Index", ylab = "1999-2023 Index")
-abline(1,1)
+     xlab = "1999-2019 Index", ylab = "1999-2023 Index", pch = 16)
+abline(1,1, col = "grey", lwd = 1.5)
 
 # - On time-series
 sw_right_rel_abundance_2019$Upper95 <- qlnorm(0.975, mean = log(sw_right_rel_abundance_2019$A_xy_mu_sim), sd = sqrt(sw_right_rel_abundance_2019$ln_A_xy_var_sim))

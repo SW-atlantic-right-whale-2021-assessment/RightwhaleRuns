@@ -5,16 +5,19 @@
 \documentclass[
 ]{article}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -33,14 +36,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={SRW 2023 Update},
-  pdfauthor={Grant Adams},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \makeatletter
@@ -76,6 +71,14 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={SRW 2023 Update},
+  pdfauthor={Grant Adams},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{SRW 2023 Update}
 \author{Grant Adams}
@@ -83,6 +86,14 @@
 
 \begin{document}
 \maketitle
+
+\begin{verbatim}
+## Warning: package 'kableExtra' was built under R version 4.3.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 4.3.2
+\end{verbatim}
 
 \hypertarget{population-assessment-of-southern-right-whales-in-the-southwestern-atlantic-ocean}{%
 \section{2023 population assessment of southern right whales in the
@@ -167,23 +178,23 @@ surplus production models using a sampling-importance-resampling
 algorithm implemented by McAllister et al.~(1999). The
 surplus-production function was specified as a generalized
 theta-logistic equation (Pella \& Tomlinson 1969). The key estimable
-population parameters were carrying capacity (\(K\)), the maximum rate
-of increase (\(R_{max}\)), and the proportion of \(K\) at which maximum
-production is achieved (\(P_{msy}\)). Rather than estimating and
-assigning a prior to carrying capacity (\(K\)) directly, the backwards
+population parameters were carrying capacity (K), the maximum rate of
+increase (R\_\{max\}), and the proportion of K at which maximum
+production is achieved (P\_\{msy\}). Rather than estimating and
+assigning a prior to carrying capacity (K) directly, the backwards
 approach was used, which assigns a prior to a recent abundance
-\(N_{recent}\) and back-calculates the abundance trajectory. Models were
+N\_\{recent\} and back-calculates the abundance trajectory. Models were
 run for the period 1648--2023 and projected forward to 2030. Models
 assumed that the pre-exploitation population was at carrying capacity
 before the beginning of whaling operations in 1678 (i.e.,
-\(N_{(1648-1677)}=K\)).
+N\_\{(1648-1677)\}=K).
 
 Eleven models were developed to account for uncertainty regarding model
 formulation, prior probability specifications, and input data. Five
 model variations, including the base model, accounted for uncertainty
-regarding prior distributions for \(R_{max}\), process error, and
-\(N_{recent}\). Three models were developed to account for uncertainty
-in the \texttt{minimum\ population\ size} constraints given multiple
+regarding prior distributions for R\_\{max\}, process error, and
+N\_\{recent\}. Three models were developed to account for uncertainty in
+the \texttt{minimum\ population\ size} constraints given multiple
 estimates of the number of mtDNA haplotypes (IWC 2013). One model
 variation was developed to account for uncertainty regarding whales that
 were struck and lost. Two models were developed to account for
