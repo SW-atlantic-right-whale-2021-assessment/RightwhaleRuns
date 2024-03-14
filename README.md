@@ -3,4 +3,12 @@ Updated model runs from:
 
 Romero, M.A., Coscarella, M.A., Adams, G.D. et al. Historical reconstruction of the population dynamics of southern right whales in the southwestern Atlantic Ocean. Sci Rep 12, 3324 (2022). https://doi.org/10.1038/s41598-022-07370-6
 
-Includes updated survey data from 2021-2023. Install "StateSpaceSIR_1.0.0.0000.tar.gz" to run StateSpaceSir created at https://github.com/SW-atlantic-right-whale-2021-assessment/StateSpaceSIR/tree/d6e4fbf1b41fdf9c62fe40060a5b80ba14a884e9
+Includes updated survey data from 2021-2023. 
+
+To re-run the models: 
+
+1. Install "StateSpaceSIR_1.0.0.0000.tar.gz" to install StateSpaceSir created at ( https://github.com/SW-atlantic-right-whale-2021-assessment/StateSpaceSIR/tree/d6e4fbf1b41fdf9c62fe40060a5b80ba14a884e9)
+2. Run "Index code/Accumulated_number_of_whales.r" to update the index (already done)
+3. Run "Model runs/Model_runs.R" to estimate the model sensitivities
+4. Run "Model runs/Model_plots.R" to plot the model sensitivities
+5. Run "Model runs/Model_average.R" to build the model ensemble and plot the results/output
