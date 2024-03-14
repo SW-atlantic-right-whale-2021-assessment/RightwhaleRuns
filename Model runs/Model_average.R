@@ -73,21 +73,21 @@ bayes_f <- bayes_factor(SIR = list(sir_base[[1]],
 
 # Create a new model based on bayes factors
 model_average <- weight_model(SIR = list(sir_base[[1]],
-                                   sensitivity_1[[1]], 
-                                   sensitivity_2[[1]], 
-                                   sensitivity_3[[1]],
-                                   #sensitivity_4[[1]],
-                                   #sensitivity_5[[1]],
-                                   sensitivity_6[[1]],
-                                   sensitivity_7[[1]],
-                                   #sensitivity_8[[1]],
-                                   #sensitivity_9[[1]],
-                                   sensitivity_10[[1]],
-                                   sensitivity_11[[1]],
-                                   sensitivity_12[[1]],
-                                   sensitivity_13[[1]],
-                                   sensitivity_14[[1]]), 
-                        bayes_factor = bayes_f)
+                                         sensitivity_1[[1]], 
+                                         sensitivity_2[[1]], 
+                                         sensitivity_3[[1]],
+                                         #sensitivity_4[[1]],
+                                         #sensitivity_5[[1]],
+                                         sensitivity_6[[1]],
+                                         sensitivity_7[[1]],
+                                         #sensitivity_8[[1]],
+                                         #sensitivity_9[[1]],
+                                         sensitivity_10[[1]],
+                                         sensitivity_11[[1]],
+                                         sensitivity_12[[1]],
+                                         sensitivity_13[[1]],
+                                         sensitivity_14[[1]]), 
+                              bayes_factor = bayes_f)
 model_average$inputs$output.Years <- c(1999, 2021, 2023, 2030)
 
 # For plotting make a vector of bayes factors, set NA for models that cant be compared (different likelihood)
@@ -133,3 +133,49 @@ plot_density_ma(SIR = sir_list_ma, posteriors_lwd = c(3, 1,3,3), posteriors_lty 
 plot_ioa(model_average,  file_name = file_name, ioa_names = NULL)
 summary_table(model_average,  file_name = file_name)
 save(model_average, file = paste0(file_name, ".Rdata"))
+
+
+## Compare indices of relative abundance
+sw_right_rel_abundance_2023 <- read.csv("Data/Accumulated_n_whales_1999_to_2023.csv") 
+sw_right_rel_abundance_2019 <- read.csv("Data/Accumulated_n_whales_1999_to_2019.csv") 
+
+# - Against one another
+plot(x = sw_right_rel_abundance_2019$A_xy_mu_sim, y = sw_right_rel_abundance_2023$A_xy_mu_sim[1:17],
+     xlab = "1999-2019 Index", ylab = "1999-2023 Index")
+abline(1,1)
+
+# - On time-series
+sw_right_rel_abundance_2019$Upper95 <- qlnorm(0.975, mean = log(sw_right_rel_abundance_2019$A_xy_mu_sim), sd = sqrt(sw_right_rel_abundance_2019$ln_A_xy_var_sim))
+sw_right_rel_abundance_2019$Lower95 <- qlnorm(0.025, mean = log(sw_right_rel_abundance_2019$A_xy_mu_sim), sd = sqrt(sw_right_rel_abundance_2019$ln_A_xy_var_sim))
+
+sw_right_rel_abundance_2023$Upper95 <- qlnorm(0.975, mean = log(sw_right_rel_abundance_2023$A_xy_mu_sim), sd = sqrt(sw_right_rel_abundance_2023$ln_A_xy_var_sim))
+sw_right_rel_abundance_2023$Lower95 <- qlnorm(0.025, mean = log(sw_right_rel_abundance_2023$A_xy_mu_sim), sd = sqrt(sw_right_rel_abundance_2023$ln_A_xy_var_sim))
+
+xlim <- range(c(sw_right_rel_abundance_2019$Year, sw_right_rel_abundance_2023$Year))
+ylim <- range(c(sw_right_rel_abundance_2019$Upper95, sw_right_rel_abundance_2023$Upper95, sw_right_rel_abundance_2019$Lower95, sw_right_rel_abundance_2023$Lower95))
+
+# - Plot
+plot(NA, NA, ylim = ylim, xlim = xlim, xlab = "Year", ylab = "Index")
+
+# Relative abundance
+# - 2019
+points( x = sw_right_rel_abundance_2019$Year-0.15,
+        y = sw_right_rel_abundance_2019$A_xy_mu_sim,
+        col = 1, pch = 16, cex = 2)
+arrows( x0 = sw_right_rel_abundance_2019$Year-0.15,
+        y0 = sw_right_rel_abundance_2019$Lower95,
+        x1 = sw_right_rel_abundance_2019$Year-0.15,
+        y1 = sw_right_rel_abundance_2019$Upper95,
+        length=0.05, angle=90, code=3, lwd = 3, col = 1)
+
+points( x = sw_right_rel_abundance_2023$Year+0.15,
+        y = sw_right_rel_abundance_2023$A_xy_mu_sim,
+        col = "grey", pch = 16, cex = 2)
+arrows( x0 = sw_right_rel_abundance_2023$Year+0.15,
+        y0 = sw_right_rel_abundance_2019$Lower95,
+        x1 = sw_right_rel_abundance_2023$Year+0.15,
+        y1 = sw_right_rel_abundance_2023$Upper95,
+        length=0.05, angle=90, code=3, lwd = 3, col = "grey")
+
+legend("topleft", c("1999-2019 Index", "1999-2023 Index"), bty = "n", col = c(1, "grey"), pch = 16, pt.cex = 2)
+
